@@ -17,7 +17,7 @@ public class UserDTO {
     /** 离线新消息数 */
     private String message;
     private long postnum;
-    private String level;
+    private String level = "普通会员";
 
     public UserDTO() {
 

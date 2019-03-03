@@ -6,6 +6,7 @@ import bbs.game.cn.bbs.dto.UserDTO;
 import bbs.game.cn.bbs.entity.UserEntity;
 import bbs.game.cn.bbs.form.LoginForm;
 import bbs.game.cn.bbs.form.RegisterForm;
+import bbs.game.cn.bbs.repository.ForumRepository;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.UserService;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    ForumRepository forumRepository;
 
     /**
      * 用户登录
@@ -43,7 +46,12 @@ public class UserServiceImpl implements UserService {
                 userEntity = userRepository.findByEmail(form.getUsercheck());
                 break;
         }
-        return UserEntity2UserDTO.convert(userEntity);
+        UserDTO userDTO = UserEntity2UserDTO.convert(userEntity);
+        if (userEntity.getLevel() != 0) {
+            String forumName = forumRepository.findForumnameByForumid(Long.valueOf(userEntity.getLevel()));
+            userDTO.setLevel(forumName + "版主");
+        }
+        return userDTO;
     }
 
     /**

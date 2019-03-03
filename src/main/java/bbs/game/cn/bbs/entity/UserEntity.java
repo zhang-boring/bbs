@@ -20,7 +20,7 @@ public class UserEntity {
     private String signature;
     private Timestamp signUpTime = new Timestamp(System.currentTimeMillis());
     private Timestamp checkInDate = new Timestamp(System.currentTimeMillis());;
-    private String level = "普通会员";
+    private Integer level = 0;
 
     public UserEntity() {
     }
@@ -28,7 +28,7 @@ public class UserEntity {
     public UserEntity(
             String uname, String password, String email, String phone,
             String icon, String signature, Timestamp signUpTime,
-            Timestamp checkInDate, String level) {
+            Timestamp checkInDate, Integer level) {
         this.uname = uname;
         this.password = password;
         this.email = email;
@@ -132,11 +132,11 @@ public class UserEntity {
 
     @Basic
     @Column(name = "level")
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
