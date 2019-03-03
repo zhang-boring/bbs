@@ -50,7 +50,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpec
      * 新帖数量最高日
      * @return
      */
-    @Query(value = "select count(*) as counts from post group by date_format(committime, '%Y-%m-%d') order by counts asc limit 1", nativeQuery = true)
+    @Query(value = "select count(*) as counts from post group by date_format(committime, '%Y-%m-%d') order by counts desc limit 1", nativeQuery = true)
     Object mostPostsDay();
 
     /**
