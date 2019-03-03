@@ -1,0 +1,3 @@
+<#if successinfo??>
+    ${successinfo}
+</#if>
