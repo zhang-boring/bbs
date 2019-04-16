@@ -5,6 +5,7 @@ import bbs.game.cn.bbs.utils.RandomValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,8 +61,7 @@ public class PostController {
                 response.setHeader("X-Frame-Options", "SAMEORIGIN");
                 PrintWriter out = response.getWriter();
 
-                String pathName = ckeditorStorageImagePath + name + file.getOriginalFilename();
-                System.out.println(pathName);
+                String pathName = ckeditorStorageImagePath + name + "." + file.getOriginalFilename();
 
                 File newfile = new File(pathName);
                 byte[] bytes = file.getBytes();
@@ -71,7 +71,6 @@ public class PostController {
 
                 // 组装返回url，以便于ckeditor定位图片
                 String fileUrl = ckeditorAccessImageUrl + "/" + newfile.getName();
-                System.out.println(fileUrl);
 
                 // 将上传的图片的url返回给ckeditor
                 String callback = request.getParameter("CKEditorFuncNum");
@@ -84,5 +83,10 @@ public class PostController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @RequestMapping(value = "/new")
+    public void newPost() {
+
     }
 }

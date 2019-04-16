@@ -38,7 +38,7 @@
         <div style="clear: both;"></div>
     </div>
     <div style="min-width: 760px;border: 1px solid #dddddd;margin: 0 auto 8px;height: auto;overflow: hidden;background: #ffffff;">
-        <form action="/post/new">
+        <form action="/post/new" method="post">
             <input type="hidden" name="forumid" value="${Session.forumid}">
             <table style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;" cellpadding="0" cellspacing="0" align="center">
                 <tr>
@@ -47,7 +47,10 @@
                     </th>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td style="font-size: 12px;text-align:center;padding-left:120px">
+                        文章标题
+                    </td>
+                    <td>
                         <div style="margin:.5em auto 0 205px; height:30px;">
                             <div style="width: 540px;border: 1px solid;border-color: #dddddd;padding: 2px 0px 2px 1px;font-size: 1.0em;vertical-align: middle;color: #000;float: left;background: #ffffff;">
                                 <input title="请输入标题" name="title" style="border:0;font-size:14px; font-family:Tahoma;width:480px;font: 12px Arial;padding: 1px 3px 0 3px;vertical-align: middle;margin-bottom: 1px;">
@@ -154,8 +157,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        <input type="submit" value="提交">
+                    <th></th>
+                    <td style="height: 30px;">
+                        <input type="submit" value="提交" style="align:center;margin-left: 260px;width:80px;color:#fff;font-weight:700;border:1px;background:url(/img/bg/bg-btn.gif) repeat-x #bbbbbb;vertical-align:middle;border:1px solid #dddddd;">
                     </td>
                 </tr>
             </table>

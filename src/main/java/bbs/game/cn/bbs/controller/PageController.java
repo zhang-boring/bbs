@@ -81,9 +81,13 @@ public class PageController {
      * @return
      */
     @RequestMapping("/login")
-    public ModelAndView login(Map<String, Object> map) {
-        map.put("ustate", "login");
-        return new ModelAndView("login", map);
+    public ModelAndView login(Map<String, Object> map, HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") != null) {
+            return new ModelAndView("index");
+        } else {
+            map.put("ustate", "login");
+            return new ModelAndView("login", map);
+        }
     }
 
     /**
