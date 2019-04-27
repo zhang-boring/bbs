@@ -45,7 +45,7 @@ public class ForumServiceImpl implements ForumService {
                 forumDTO.setCommittime(null);
             } else {
                 forumDTO.setPostid(Long.valueOf(newestPostid.toString()));
-                forumDTO.setTitle(((String) postRepository.findPostTitleByPostid(forumDTO.getPostid())).substring(0, 4) + "...");
+                forumDTO.setTitle(((String) postRepository.findPostTitleByPostid(forumDTO.getPostid())).substring(0, 2) + "...");
                 forumDTO.setUname((String) postRepository.findUnameByPostid(forumDTO.getPostid()));
                 forumDTO.setCommittime(postRepository.findCommittimeByPostid(forumDTO.getPostid()));
             }

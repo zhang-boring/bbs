@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     ForumRepository forumRepository;
 
+    @Override
+    public UserEntity findUser(Long uid) {
+        return userRepository.findByUid(uid);
+    }
+
     /**
      * 用户登录
      *  分用户名验证登录、uid验证登录、邮箱验证登陆
@@ -178,5 +183,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePW(String uname, String pw) {
         userRepository.updatePassordByUname(uname, pw);
+    }
+
+    @Override
+    public String findUsernameByUid(Long uid) {
+        return (String) userRepository.findUnameByUid(uid);
+    }
+
+    @Override
+    public String findUserIconByUid(Long uid) {
+        return userRepository.findIconByUid(uid);
     }
 }

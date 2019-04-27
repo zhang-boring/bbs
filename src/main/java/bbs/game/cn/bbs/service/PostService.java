@@ -21,5 +21,12 @@ public interface PostService {
     Long postYestoday();
     String mostPostsDay();
     List<PostDTO> getGonggao();
+    PostEntity findByPostid(long postid);
     Page<PostDTO> findPostList(Specification<PostEntity> spec, Pageable pageable);
+
+    PostEntity insert(PostEntity postEntity);
+    Long getPartid(Long postid);
+    Long getForumid(Long postid);
+
+    Long getPosterId(Long postid);
 }

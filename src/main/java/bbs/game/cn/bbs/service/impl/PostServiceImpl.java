@@ -6,6 +6,7 @@ import bbs.game.cn.bbs.entity.PostEntity;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.PostService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -105,6 +106,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostEntity findByPostid(long postid) {
+        return postRepository.findOneById(postid);
+    }
+
+    @Override
     public Page<PostDTO> findPostList(Specification<PostEntity> spec, Pageable pageable) {
         Page<PostEntity> postEntityPage= postRepository.findAll(spec, pageable);
         List<PostEntity> postEntityList = new ArrayList(postEntityPage.getContent());
@@ -115,5 +121,25 @@ public class PostServiceImpl implements PostService {
             postDTO.setReplyNum(postRepository.countReplynumByPostid(postDTO.getPostid()));
         }
         return new PageImpl<PostDTO>(postDTOList, pageable, postEntityPage.getTotalElements());
+    }
+
+    @Override
+    public PostEntity insert(PostEntity postEntity) {
+        return postRepository.save(postEntity);
+    }
+
+    @Override
+    public Long getPartid(Long postid) {
+        return postRepository.getPartid(postid);
+    }
+
+    @Override
+    public Long getForumid(Long postid) {
+        return postRepository.getForumid(postid);
+    }
+
+    @Override
+    public Long getPosterId(Long postid) {
+        return postRepository.findPosterId(postid);
     }
 }

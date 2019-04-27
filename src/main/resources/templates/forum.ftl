@@ -51,7 +51,9 @@
                 <tr style="line-height: 130%;background: #ffffff;" align="center">
                     <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
                         <h3 style="font-weight: normal;display: inline;font-size: 12px;">
+                            <a href="/post/${post.postid}">
                             <span style="padding-left: 12px;">${post.title}</span>
+                            </a>
                         </h3>
                     </td>
                     <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
@@ -104,16 +106,6 @@
                     <li style="height: 22px;margin-left: 5px;border-left: 1px solid #eeeeee;padding-left: 12px;float: left;list-style: none;">Pages:${currentPage}/${postDTOPage.totalPages}&nbsp;&nbsp;&nbsp;Go:<input type="text" size="3" id="pageinput" style="border: 1px solid #eeeeee;font: 12px/15px Verdana;height: 14px;color: #555555;margin-right: 5px;margin-bottom: 3px;padding: 1px 3px 0 3px;vertical-align: middle;" />
                     </li>
                     <script language="JavaScript">
-                            <#--function goPage(content) {-->
-                                <#--var page = content.value;-->
-                                <#--if (page >= ${postDTOPage.totalPages}) {-->
-                                    <#--window.location.href = "/forum/${forumid}?page=${postDTOPage.totalPages}";-->
-                                <#--} else if (page <= 1) {-->
-                                    <#--window.location.href = "/forum/${forumid}?page=1";-->
-                                <#--} else {-->
-                                    <#--window.location.href = "/forum/${forumid}?page=" + page;-->
-                                <#--}-->
-                            <#--}-->
                             $('#pageinput').bind('keypress', function (event) {
                                 if (event.keyCode == "13") {
                                     var page = $('#pageinput').val();

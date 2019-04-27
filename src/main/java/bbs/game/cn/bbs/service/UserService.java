@@ -9,6 +9,7 @@ import bbs.game.cn.bbs.form.RegisterForm;
  * @author 张宝运
  */
 public interface UserService {
+    UserEntity findUser(Long uid);
     UserDTO login(LoginForm form);
     String newestUname();
     Long usersTotal();
@@ -21,4 +22,7 @@ public interface UserService {
     void editSignature(Long uid, String sig);
     UserEntity repw(String email, String uname);
     void changePW(String uname, String pw);
+
+    String findUsernameByUid(Long uid);
+    String findUserIconByUid(Long uid);
 }

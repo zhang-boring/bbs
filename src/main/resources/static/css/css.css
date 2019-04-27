@@ -141,3 +141,65 @@ a:hover{
 }
 .one-hidden {background:url(/img/showhide.gif) center center no-repeat; }
 .one-show {background:url(/img/showhide.gif) center center no-repeat;transform: rotate(180deg);}
+
+.fl {
+    float: left
+}
+.h2 {
+    background: url(/img/bg/bg_tb.gif) repeat-x #dddddd;
+    color: #333333;
+    text-align: left;
+    padding: 0 12px;
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #dddddd;
+}
+.tiptop {
+    font-size: 12px;
+    border-bottom: 1px dotted #ccc;
+    padding: 0 0 0 1px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0 1em 1em 1em;
+}
+.bianji {
+    background: none;
+    margin-left: .8em;
+}
+.h1 {
+    color: #bbbbbb;
+    margin: 0 0 1em 0;
+}.tpc_content {
+     font-family: Arial;
+     padding: 0 2em 2em 2em;
+     margin: 0;
+     line-height: 2em;
+     font-size: 14px;
+ }
+.f14 {
+    font-size: 14px
+}
+.user-pic {
+    margin-left: 5px;
+}
+.w {
+    white-space: nowrap
+}
+.user-info {
+    position: absolute;
+    line-height: 160%;
+    margin-left: -1.5em;
+}
+.user-infoWrap {
+    color: #555;
+    background: #fff url(images/colorImagination/menubg.gif) center top repeat-x;
+    border: 1px solid #bbbbbb;
+    padding: .5em 1em;
+    margin-left: 20px;
+    display: block;
+}
+.tipad {
+    font-size: 12px;
+    margin: 2em 1em 0 1em;
+    padding-bottom: 1em;
+}

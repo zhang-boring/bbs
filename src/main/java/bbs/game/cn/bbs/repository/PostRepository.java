@@ -2,6 +2,7 @@ package bbs.game.cn.bbs.repository;
 
 import bbs.game.cn.bbs.dto.PostDTO;
 import bbs.game.cn.bbs.entity.PostEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpecificationExecutor<PostEntity> {
@@ -114,4 +116,16 @@ public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpec
      */
     @Override
     Page<PostEntity> findAll(Specification<PostEntity> specification, Pageable pageable);
+
+    @Query(value = "select * from post where postid=:postid", nativeQuery = true)
+    PostEntity findOneById(@Param(value = "postid") Long id);
+
+    @Query(value = "select partid from forum where forumid = (select forumid from post where postid = :postid)", nativeQuery = true)
+    Long getPartid(@Param(value = "postid")Long postid);
+
+    @Query(value = "select forumid from post where postid=:postid", nativeQuery = true)
+    Long getForumid(@Param(value = "postid")Long postid);
+
+    @Query(value = "select uid from post where postid=:postid", nativeQuery = true)
+    Long findPosterId(@Param(value = "postid")Long postid);
 }

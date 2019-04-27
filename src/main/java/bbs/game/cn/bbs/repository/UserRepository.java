@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
 
     UserEntity findByEmailAndUname(String email, String uame);
+
+    UserEntity findByUid(Long uid);
 //    Long countAllByUid();
 
     /**
@@ -57,4 +59,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Modifying
     @Query(value = "update user set password = :password where uname = :uname", nativeQuery = true)
     void updatePassordByUname(@Param("uname") String uname, @Param(("password")) String pw);
+
+    @Query(value = "select icon from user where uid = :uid", nativeQuery = true)
+    String findIconByUid(@Param("uid")Long uid);
 }

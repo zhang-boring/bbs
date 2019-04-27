@@ -11,7 +11,7 @@ public class RandomValue {
     public static synchronized String getRandomFileName() {
         Random random = new Random();
 
-        Integer number = random.nextInt(900000) + 100000;
+        Integer number = random.nextInt(899999) + 100000;
 
         return System.currentTimeMillis() + number.toString();
     }
