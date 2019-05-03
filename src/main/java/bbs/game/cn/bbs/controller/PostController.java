@@ -1,15 +1,19 @@
 package bbs.game.cn.bbs.controller;
 
+import bbs.game.cn.bbs.dto.CommentDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
+import bbs.game.cn.bbs.entity.CommentEntity;
 import bbs.game.cn.bbs.entity.PostEntity;
+import bbs.game.cn.bbs.form.CommentForm;
 import bbs.game.cn.bbs.form.PostForm;
-import bbs.game.cn.bbs.service.ForumService;
-import bbs.game.cn.bbs.service.PartService;
-import bbs.game.cn.bbs.service.PostService;
-import bbs.game.cn.bbs.service.UserService;
+import bbs.game.cn.bbs.service.*;
 import bbs.game.cn.bbs.utils.RandomValue;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,6 +46,8 @@ public class PostController {
     ForumService forumService;
     @Autowired
     UserService userService;
+    @Autowired
+    CommentService commentService;
 
     @Value(value = "${ckeditor.storage.image.path}")
     private String ckeditorStorageImagePath;
@@ -57,7 +64,10 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{postid}", method = RequestMethod.GET)
-    public ModelAndView postPage(@PathVariable("postid") Long postid, HttpServletRequest request) {
+    public ModelAndView postPage(@PathVariable("postid") Long postid,
+                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "30") Integer size,
+                                 HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         PostEntity postEntity = postService.findByPostid(postid);
         modelAndView.addObject("post", postEntity);
@@ -70,6 +80,22 @@ public class PostController {
         session.setAttribute("forumname", forumService.findForumnameByForumid(forumid));
         modelAndView.addObject("poster", userService.findUser(postService.getPosterId(postid)));
         modelAndView.setViewName("post");
+
+        Specification<CommentEntity> spec = new Specification<CommentEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CommentEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+
+                Path<Long> postMark = root.get("postid");
+                Predicate predicate = criteriaBuilder.equal(postMark, postid);
+                return predicate;
+            }
+        };
+        PageRequest pageRequest = new PageRequest(page - 1, size);
+        Page<CommentDTO> commentDTOPage = commentService.findCommentList(spec, pageRequest);
+
+        modelAndView.addObject("currentPage", page);
+        modelAndView.addObject("comments", commentDTOPage);
+        modelAndView.addObject("cpage", page);
         return modelAndView;
     }
 
@@ -130,5 +156,15 @@ public class PostController {
         postService.insert(postEntity);
         modelAndView.setViewName("redirect:/forum/" + forumid);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/comment")
+    public ModelAndView comment(CommentForm commentForm) {
+        CommentEntity commentEntity = new CommentEntity();
+        BeanUtils.copyProperties(commentForm, commentEntity);
+        commentEntity.setCommittime(new Timestamp(System.currentTimeMillis()));
+        commentEntity.setComment(commentForm.getAtc_content());
+        commentService.insert(commentEntity);
+        return new ModelAndView("redirect:/post/" + commentForm.getPostid());
     }
 }

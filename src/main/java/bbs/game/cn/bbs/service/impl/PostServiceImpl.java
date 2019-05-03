@@ -6,7 +6,6 @@ import bbs.game.cn.bbs.entity.PostEntity;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.PostService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

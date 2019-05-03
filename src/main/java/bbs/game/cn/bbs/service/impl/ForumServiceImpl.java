@@ -5,6 +5,7 @@ import bbs.game.cn.bbs.dto.ForumDTO;
 import bbs.game.cn.bbs.entity.ForumEntity;
 import bbs.game.cn.bbs.repository.ForumRepository;
 import bbs.game.cn.bbs.repository.PostRepository;
+import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ForumServiceImpl implements ForumService {
     ForumRepository forumRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<ForumDTO> findAll(Long uid) {
@@ -28,6 +31,9 @@ public class ForumServiceImpl implements ForumService {
             Long allPosts = postRepository.countAllByForumidAndAnnounce(forumDTO.getForumid(), (short) 0);
             String newPosts = postRepository.findNewPostsAfterCheckin(forumDTO.getForumid(), uid).toString();
             String todayPosts = postRepository.findNewPostsToday(forumDTO.getForumid(), new Date(System.currentTimeMillis())).toString();
+            if (!forumDTO.getModerator().equals("0")) {
+                forumDTO.setModeratorName((String) userRepository.findUnameByUid(Long.parseLong(forumDTO.getModerator())));
+            }
             if (uid == null) {
                 forumDTO.setNewPosts(todayPosts);
                 forumDTO.setTodayPosts(todayPosts);

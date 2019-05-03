@@ -11,7 +11,7 @@ public class ForumEntity {
     private long partid;
     private String forumname;
     private String icon;
-    private String moderator;
+    private long moderator;
     private String description;
     private Timestamp createtime;
 

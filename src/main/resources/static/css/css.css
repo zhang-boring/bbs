@@ -203,3 +203,6 @@ a:hover{
     margin: 2em 1em 0 1em;
     padding-bottom: 1em;
 }
+.f_two, .t_two, .r_two {
+    background: #EEEEEE;
+}

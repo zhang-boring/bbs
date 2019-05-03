@@ -41,8 +41,7 @@
                     <table style="padding-left:8px;">
                         <tr>
                             <td>
-                                <#--TODO-->
-                                <a href="/userinfo" style="color:#ffffff;margin-right:8px;font-size: 12px;">
+                                <a href="/user/${Session.user.uid}" style="color:#ffffff;margin-right:8px;font-size: 12px;">
                                     ${Session.user.uname}
                                 </a>
                             </td>
@@ -102,8 +101,7 @@
                                     </div>
                                 </form>
                             <#else>
-                                <#--TODO-->
-                                <a href="#">
+                                <a href="/user/${Session.user.uid}">
                                     <img src="${Session.user.icon}" style="float: left;bottom: 5px;width: 40px;height: 40px;position: absolute;"/>
                                 </a>
                                 <div style="margin-left: 50px;line-height: 180%">

@@ -62,4 +62,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "select icon from user where uid = :uid", nativeQuery = true)
     String findIconByUid(@Param("uid")Long uid);
+
+    @Query(value = "select signature from user where uid = :uid", nativeQuery = true)
+    String findSignatureByUid(@Param("uid")Long uid);
 }

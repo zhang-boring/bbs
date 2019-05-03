@@ -18,6 +18,7 @@ public class ForumDTO {
     private String forumname;
     /* 版主用户名，注:在数据库中存储为版主uid */
     private String moderator;
+    private String moderatorName;
     /* 版块描述 */
     private String description;
     /* 图标链接 */

@@ -99,7 +99,6 @@
 <body>
 <div style="height: auto;width: 920px;margin:auto;">
     <div id="gonggao">
-        <#--TODO-->
         <a class="gonggao-item" href="/index">
             <strong class="strong">游玩 G&P</strong>
         </a>

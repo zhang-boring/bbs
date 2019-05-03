@@ -30,11 +30,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/{uid}")
-    public ModelAndView user(@PathVariable("uid") Long uid) {
-        return new ModelAndView("user");
-    }
-
     /**
      * 用户登录:/user/login
      * @param form
@@ -188,5 +183,11 @@ public class UserController {
             modelAndView.addObject("errorinfo", "没有查到该用户，请检查用户名和邮箱。");
             return modelAndView;
         }
+    }
+
+    @RequestMapping("/{uid}")
+    public ModelAndView userinfo(@PathVariable Long uid, HttpServletRequest httpServletRequest) {
+        UserEntity userEntity = userService.findUser(uid);
+        return null;
     }
 }

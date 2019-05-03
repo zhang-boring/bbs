@@ -7,26 +7,50 @@
     <script src="/js/jquery-3.3.1.js"></script>
     <style>
         /*通用公告框*/
-        #gonggao{
-            border:1px solid #dddddd;margin:10px 0;overflow:hidden;
-            height:26px; padding:0 1em 0 0;line-height:26px;
-            *line-height:26px;font-weight:bold;
-            background:url(/img/bg/body-bg.png) 0 repeat-x #f8f8f8;
+        #gonggao {
+            border: 1px solid #dddddd;
+            margin: 10px 0;
+            overflow: hidden;
+            height: 26px;
+            padding: 0 1em 0 0;
+            line-height: 26px;
+            *line-height: 26px;
+            font-weight: bold;
+            background: url(/img/bg/body-bg.png) 0 repeat-x #f8f8f8;
         }
-        #gonggao .gonggao-item{
-            overflow:hidden; height:26px; padding:0 1.3em 0 1.3em;
-            background:url("/img/bg/bg-gonggao.gif") right top no-repeat;
-            float:left; position:relative ; margin-right:-7px;
+
+        #gonggao .gonggao-item {
+            overflow: hidden;
+            height: 26px;
+            padding: 0 1.3em 0 1.3em;
+            background: url("/img/bg/bg-gonggao.gif") right top no-repeat;
+            float: left;
+            position: relative;
+            margin-right: -7px;
         }
-        #gonggao .gonggao-item .strong{*line-height:26px;_line-height:26px;}
-        #gonggao .gonggao-item i { position:absolute; height:26px; width:7px; left:0px; top:0}
-        #gonggao .gonggao-item:hover{ text-decoration:none;font-weight:bold}
+
+        #gonggao .gonggao-item .strong {
+            *line-height: 26px;
+            _line-height: 26px;
+        }
+
+        #gonggao .gonggao-item i {
+            position: absolute;
+            height: 26px;
+            width: 7px;
+            left: 0px;
+            top: 0
+        }
+
+        #gonggao .gonggao-item:hover {
+            text-decoration: none;
+            font-weight: bold
+        }
     </style>
 </head>
 <body>
 <div style="height: auto;width: 920px;margin:auto;">
     <div id="gonggao">
-        <#--TODO-->
         <a class="gonggao-item" href="/index">
             <strong class="strong">游玩 G&P</strong>
         </a>
@@ -39,12 +63,15 @@
         <div style="clear: both;"></div>
     </div>
     <div style="margin: auto;border: 1px solid #dddddd;height: auto;overflow: hidden;">
-        <table cellspacing="0" cellpadding="0" width="100%" style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;">
+        <table cellspacing="0" cellpadding="0" width="100%"
+               style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;">
             <tbody>
             <tr style="padding: 0px;margin: 0px;border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;text-align: left;color: #333333;line-height: 200%;">
                 <td style="text-align: center;">文章</td>
                 <td style="width:8em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">作者</td>
-                <td style="width:6em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;text-align: left;">回复</td>
+                <td style="width:6em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;text-align: left;">
+                    回复
+                </td>
                 <td style="width:9em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">最新回复</td>
             </tr>
             <#list postDTOPage.content as post>
@@ -52,7 +79,7 @@
                     <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
                         <h3 style="font-weight: normal;display: inline;font-size: 12px;">
                             <a href="/post/${post.postid}">
-                            <span style="padding-left: 12px;">${post.title}</span>
+                                <span style="padding-left: 12px;">${post.title}</span>
                             </a>
                         </h3>
                     </td>
@@ -75,10 +102,10 @@
                 </tr>
             </#list>
             </tbody>
-        </table><br/>
+        </table>
+        <br/>
         <div style="margin: 4px auto 3px;">
             <span style="float: right;">
-                <#--TODO-->
                 <a href="/newpost">
                     <img src="/img/icon/post.png">
                 </a>
@@ -87,7 +114,8 @@
                 <div style="float: left;border: 1px solid #dddddd;height: 22px;line-height: 22px;margin: 2px 5px 3px 0;">
                 <ul style="padding: 0;margin: 0;">
                     <li style="list-style: none;float: left;">
-                        <a href="/forum/${forumid}?page=1" style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">«</a>
+                        <a href="/forum/${forumid}?page=1"
+                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">«</a>
                     </li>
                     <#list 1..postDTOPage.totalPages as index>
                         <#if currentPage == index>
@@ -96,14 +124,18 @@
                             </li>
                         <#else>
                             <li style="list-style: none;float: left;">
-                                <a href="/forum/${forumid}?page=${index}" style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">${index}</a>
+                                <a href="/forum/${forumid}?page=${index}"
+                                   style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">${index}</a>
                             </li>
                         </#if>
                     </#list>
                     <li style="list-style: none;float: left;">
-                        <a href="/forum/${forumid}?page=${postDTOPage.totalPages}" style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">»</a>
+                        <a href="/forum/${forumid}?page=${postDTOPage.totalPages}"
+                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">»</a>
                     </li>
-                    <li style="height: 22px;margin-left: 5px;border-left: 1px solid #eeeeee;padding-left: 12px;float: left;list-style: none;">Pages:${currentPage}/${postDTOPage.totalPages}&nbsp;&nbsp;&nbsp;Go:<input type="text" size="3" id="pageinput" style="border: 1px solid #eeeeee;font: 12px/15px Verdana;height: 14px;color: #555555;margin-right: 5px;margin-bottom: 3px;padding: 1px 3px 0 3px;vertical-align: middle;" />
+                    <li style="height: 22px;margin-left: 5px;border-left: 1px solid #eeeeee;padding-left: 12px;float: left;list-style: none;">Pages:${currentPage}/${postDTOPage.totalPages}&nbsp;&nbsp;&nbsp;Go:<input
+                                type="text" size="3" id="pageinput"
+                                style="border: 1px solid #eeeeee;font: 12px/15px Verdana;height: 14px;color: #555555;margin-right: 5px;margin-bottom: 3px;padding: 1px 3px 0 3px;vertical-align: middle;"/>
                     </li>
                     <script language="JavaScript">
                             $('#pageinput').bind('keypress', function (event) {
@@ -118,7 +150,7 @@
                                     }
                                 }
                             })
-                        </script>
+                    </script>
                 </ul>
             </div>
                 <div style="clear: both;"></div>

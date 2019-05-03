@@ -48,7 +48,6 @@
 <body>
 <div style="height: auto;width: 920px;margin:auto;">
     <div id="gonggao">
-        <#--TODO-->
         <a class="gonggao-item" href="/index">
             <strong class="strong">游玩 G&P</strong>
         </a>
@@ -67,7 +66,6 @@
                         <th class="h" style="padding-top: 0px;border: 0px;">&nbsp;</th>
                     </tr>
                     <tr style="height: 40px;font-size: 12px;">
-                        <#--TODO-->
                         <th width="30%" style="text-align: right;font-weight: normal;">
                             <input type="radio" name="logintype" value="0" checked>
                             <span id="login_0" style="font-size: 12px">用户名</span>
@@ -80,7 +78,6 @@
                             <input class="input gray" type="text" maxlength="20"
                                    name="usercheck" size="40"
                                    style="font-size: 12px;color: gray; margin-right: 4px;">
-                            <#--TODO-->
                             <a href="/register">马上注册</a>
                         </td>
                     </tr>
@@ -90,7 +87,6 @@
                         <input class="input" type="password" maxlength="20"
                                    name="password" size="40"
                                    style="font-size: 12px;color: gray; margin-right: 4px;">
-                            <#--TODO-->
                             <a href="/retrievepw">忘记密码</a>
                         </td>
                     </tr>

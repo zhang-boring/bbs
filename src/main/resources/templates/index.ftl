@@ -61,7 +61,6 @@
             </a>
             <div id="notice" style="overflow: hidden;">
                 <div style="width:98%;height: 18px;line-height:18px;overflow-y:hidden;">
-                    <#--TODO-->
                     <a href="/post/${Session.indexDTO.announceId}">
                         <span style="color:red">${Session.indexDTO.announceName}</span></a>
                 </div>
@@ -125,10 +124,9 @@
                                         </#if>
                                     </td>
                                     <td>
-                                        <#if (forum.moderator)??>
-                                        <#--TODO-->
-                                        <a href="" style="font-size: 12px;">
-                                                ${forum.moderator}
+                                        <#if forum.moderator != 0>
+                                        <a href="/user/${forum.moderator}" style="font-size: 12px;">
+                                                ${forum.moderatorName}
                                         </a>
                                         <#else>
 
