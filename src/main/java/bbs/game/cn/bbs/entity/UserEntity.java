@@ -3,6 +3,7 @@ package bbs.game.cn.bbs.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -21,6 +22,8 @@ public class UserEntity {
     private Timestamp signUpTime = new Timestamp(System.currentTimeMillis());
     private Timestamp checkInDate = new Timestamp(System.currentTimeMillis());;
     private Integer level = 0;
+    private Integer gender;
+    private Date birthday;
 
     public UserEntity() {
     }
@@ -160,5 +163,25 @@ public class UserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(uid, uname, password, email, phone, icon, signature, signUpTime, checkInDate, level);
+    }
+
+    @Basic
+    @Column(name = "gender")
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    @Basic
+    @Column(name = "birthday")
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }

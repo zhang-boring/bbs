@@ -13,6 +13,8 @@ import bbs.game.cn.bbs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 /**
  * @author 张宝运
  */
@@ -131,7 +133,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void getNewMessage(UserDTO userDTO) {
-        userDTO.setMessage("5");
+        Integer msgs = userRepository.getMsgNums(userDTO.getUid());
+        userDTO.setMessage(msgs.toString());
     }
 
     /**
@@ -193,5 +196,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public String findUserIconByUid(Long uid) {
         return userRepository.findIconByUid(uid);
+    }
+
+    @Override
+    public UserEntity modify(RegisterForm modifyForm, Long uid) {
+        String phone = modifyForm.getPhone() == null ? "" : modifyForm.getPhone();
+        String email = modifyForm.getEmail() == null ? "" : modifyForm.getEmail();
+        Integer gender = modifyForm.getGender();
+        String icon = modifyForm.getIcon();
+        String birthday = modifyForm.getBirthday() == null ? "1990-01-01" : modifyForm.getBirthday();
+        userRepository.updateUserInfo(uid, phone, email, gender, icon, birthday);
+        return userRepository.findByUid(uid);
     }
 }

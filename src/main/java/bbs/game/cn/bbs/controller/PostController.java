@@ -54,6 +54,8 @@ public class PostController {
 
     @Value(value = "${ckeditor.access.image.url}")
     private String ckeditorAccessImageUrl;
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping("/gonggao")
     public ModelAndView gonggao() {
@@ -165,6 +167,7 @@ public class PostController {
         commentEntity.setCommittime(new Timestamp(System.currentTimeMillis()));
         commentEntity.setComment(commentForm.getAtc_content());
         commentService.insert(commentEntity);
+        messageService.newMsg(commentForm.getSeconduid(), commentForm.getPostid(), commentForm.getFirstuid());
         return new ModelAndView("redirect:/post/" + commentForm.getPostid());
     }
 }

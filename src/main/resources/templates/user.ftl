@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>用户信息页</title>
@@ -12,10 +11,12 @@
             padding: 0px;
             margin: 0px;
         }
+
         .tr2 {
             background: #f8f8f8 url(/img/bg/bg-tr.gif) 0 repeat-x;
             color: #555555;
         }
+
         /*通用公告框*/
         #gonggao {
             border: 1px solid #dddddd;
@@ -429,6 +430,135 @@
         .f_two, .t_two, .r_two {
             background: #EEEEEE;
         }
+
+        #u-wrap2 {
+            width: 920px;
+            margin: auto;
+            background: url(/img/u-wrap.gif) repeat-x #ffffff;
+        }
+
+        .cc {
+            zoom: 1;
+            overflow: hidden;
+            _overflow: inherit
+        }
+
+        #u-sidebar {
+            width: 180px;
+            float: left;
+        }
+
+        #u-portrait {
+            padding: .7em;
+            border: 1px dotted #eeeeee;
+            background: #ffffff;
+        }
+
+        #u-content {
+            width: 720px;
+            float: right;
+        }
+
+        #u-top {
+            width: 100%;
+            height: 70px;
+            position: relative;
+        }
+
+        .u-h1 {
+            font-size: 16px;
+            display: inline;
+            padding: 0;
+            margin: 0
+        }
+
+        #honor {
+            color: #333;
+            line-height: 1.3em;
+            padding: .2em 0 0 .1em;
+        }
+
+        #u-top-nav {
+            position: absolute;
+            bottom: 0;
+            height: 30px;
+        }
+
+        #u-top-nav ul, #u-top-nav li {
+            height: 30px;
+            float: left;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #u-top-nav li a {
+            float: left;
+            padding: 0 .8em;
+            margin-right: .5em;
+            font-size: 12px;
+            background: #eeeeee;
+            color: #333333;
+            line-height: 27px;
+            margin-top: 2px;
+        }
+
+        #u-top-nav li a:hover {
+            text-decoration: none;
+            background: #333333;
+            color: #dddddd;
+        }
+
+        #u-top-nav li.current a {
+            color: #555555;
+            border: 1px solid #dddddd;
+            border-bottom: 0;
+            height: 29px;
+            background: #ffffff;
+            margin-top: 0
+        }
+
+        #u-top-nav li.current a:hover {
+            color: #555555;
+        }
+
+        .u-content-66 {
+            width: 63%;
+        }
+
+        .u-content-33 {
+            width: 33%
+        }
+
+        .u-h5 {
+            padding: 1em 0 .5em;
+            margin: 0;
+            font-size: 1.05em;
+            position: relative;
+            background: url(/img/dotline.gif) repeat-x 0 1.6em
+        }
+
+        .u-table td, .u-table th {
+            border-bottom: 1px dotted #eeeeee;
+            text-align: left;
+            padding: .5em;
+            vertical-align: top
+        }
+
+        .u-table td {
+            color: #aaa;
+        }
+
+        .u-table th {
+            font-weight: 100;
+        }
+        .info {
+            border-bottom: 1px dotted #eeeeee;
+            text-align: left;
+            padding: .5em;
+            vertical-align: top;
+            font-weight: 100;
+        }
     </style>
 </head>
 <body>
@@ -441,11 +571,302 @@
             <strong class="strong">用户中心</strong>
         </a>
         <a class="gonggao-item" onload="window.location.reload();">
-        <strong class="strong">我的</strong>
+            <strong class="strong">我的</strong>
         </a>
         <div style="clear: both;"></div>
     </div>
 
+    <div id="u-wrap2" class="cc">
+        <div id="u-sidebar">
+            <div id="u-portrait">
+                <div align="center">
+                    <img src="${user.icon}" border="0"/>
+                </div>
+                <div style="padding:.6em 1.2em;background: #FFFFFF">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr style="color: #333">
+                            <td>等级</td>
+                            <td>${user.level}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="u-content">
+            <div id="u-top">
+                <table border="0" cellspacing="0" cellpadding="0"
+                       style="margin-top:.2em; float:left; height:40px; vertical-align:middle">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <h1 class="u-h1">${user.uname}</h1>
+                        </td>
+                        <td style="padding-left:1em; line-height:120%">
+                            <span id="honor">
+                                ${user.signature}
+                            </span>
+                            <#if (Session.user.uid)?? && Session.user.uid == user.uid >
+                                <a id="editsigimg" onclick="openEdit()"
+                                   style="color: #555;cursor: pointer;font-size: 11px;">
+                                    <img src="/img/icon/infobox-edit.gif">编辑
+                                </a>
+                                <div id="editsignature"
+                                     style="position: absolute;background: #fff;border: 1px solid #bbbbbb;z-index: 3000;opacity: 0.95;left: 321px;top: 168px;visibility: visible;display: none;">
+                                    <div style="border: 5px solid #bbbbbb;">
+                                        <form>
+                                            <input type="hidden" id="editsiguid" name="uid" value="${user.uid}">
+                                            <table width="300" cellpadding="5" cellspacing="0">
+                                                <tbody>
+                                                <tr>
+                                                    <th style="border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;
+                                                                text-align: left;color: #333333;;line-height: 200%;font-size: 12px;">
+                                                        <span style="float: right;margin-top: 2px;cursor:pointer;"
+                                                              onclick="closeEdit()">
+                                                            <img src="/img/close.gif">
+                                                        </span>
+                                                        个性签名编辑
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td style="line-height: 20px;">
+                                                        <textarea id="editedsig" name="signature"
+                                                                  style="width: 95%;height: 60px;">${user.signature}</textarea>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <ul style="padding: 0;margin: 0;">
+                                                <li style="list-style: none;text-align: center;padding: 4px 0;">
+                                                    <input id="submitbtn" type="button" class="btn" value="提 交"
+                                                           onclick="tijiao()">
+                                                </li>
+                                            </ul>
+                                        </form>
+                                    </div>
+                                </div>
+                            </#if>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="c"></div>
+                <div id="u-top-nav">
+                    <ul class="b">
+                        <li <#if tag == "index">id="u_show" class="current"</#if>>
+                            <a href="/user/${user.uid}?tag=index">资料</a>
+                        </li>
+                        <#if (Session.user.uid)?? && Session.user.uid == user.uid >
+                            <li <#if tag == "msg">id="u_show" class="current"</#if>>
+                                <a href="/user/${user.uid}?tag=msg">未读消息</a>
+                            </li>
+                            <li <#if tag == "modify">id="u_show" class="current"</#if>>
+                                <a href="/user/${user.uid}?tag=modify">修改信息</a>
+                            </li>
+                        </#if>
+                    </ul>
+                </div>
+            </div>
+            <#if tag == "index">
+                <div class="u-content-66 fl">
+                    <div id="u-profile">
+                        <h5 class="u-h5">
+                            <span style="background: #FFFFFF;padding-right: .5em">个人信息</span>
+                        </h5>
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="u-table"
+                               style="table-layout:fixed;font-size: 11px">
+                            <tbody>
+                            <tr>
+                                <td>UID</td>
+                                <td width="75%">${user.uid}</td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td>
+                                    <#if user.gender == 0>
+                                        保密
+                                    <#elseif user.gender == 1>
+                                        男
+                                    <#else>
+                                        女
+                                    </#if>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>生日</td>
+                                <td>${user.birthday}</td>
+                            </tr>
+                            <tr>
+                                <td>昵称</td>
+                                <td>${user.uname}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>${user.email}</td>
+                            </tr>
+                            <tr>
+                                <td>注册时间</td>
+                                <td>${user.signUpTime}</td>
+                            </tr>
+                            <tr>
+                                <td>上次登录</td>
+                                <td>${user.checkInDate}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <#elseif tag == "msg">
+                <div id="u-profile">
+                    <h5 class="u-h5">
+                        <span style="background: #FFFFFF;padding-right: .5em">未读消息</span>
+                    </h5>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="u-table"
+                           style="table-layout:fixed;font-size: 11px">
+                        <tbody>
+                        <tr>
+                            <th width="30%">文章</th>
+                            <th width="20%">评论者</th>
+                            <th width="20%">消息数量</th>
+                            <th width="30%"><a href="/user/readmsg?postid=0&posteruid=0">全部已读</a></th>
+                        </tr>
+                        <#if (messages?size < 1)>
+                            <tr>
+                                <td colspan="4" style="color: grey;">
+                                    无新消息
+                                </td>
+                            </tr>
+                        </#if>
+                        <#list messages as message>
+                            <tr>
+                                <td>
+                                    <a href="/post/${message.postid}" onclick="readMsg(${message.postid}, ${message.posteruid})">${message.postName}</a>
+                                </td>
+                                <td>
+                                    <a href="/user/${message.posteruid}">${message.posterUname}</a>
+                                </td>
+                                <td>
+                                    ${message.nums}
+                                </td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                        <script>
+                            function readMsg(postid, posteruid) {
+                                $.ajax("/user/readmsg?postid=" + postid + "&posteruid=" + posteruid, function () {
+
+                                });
+                            }
+                        </script>
+                    </table>
+
+                </div>
+            <#else>
+                <div id="u-profile">
+                    <h5 class="u-h5">
+                        <span style="background: #FFFFFF;padding-right: .5em">修改资料</span>
+                    </h5>
+                    <form action="/user/modify" method="post">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="u-table"
+                               style="table-layout:fixed;font-size: 11px">
+                            <tbody>
+                            <tr>
+                                <td style="width: 30%">Email</td>
+                                <td>
+                                    <input name="email" type="text" value="${info.email}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>手机号</td>
+                                <td>
+                                    <input name="phone" value="<#if info.phone??>${info.phone}</#if>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>生日</td>
+                                <td>
+                                    <input type="date" name="birthday" value="${info.birthday}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td>
+                                    <input type="radio" name="gender" value="0" <#if info.gender == 0>checked</#if>>保密&nbsp;
+                                    <input type="radio" name="gender" value="1" <#if info.gender == 1>checked</#if>>男&nbsp;&nbsp;
+                                    <input type="radio" name="gender" value="2" <#if info.gender == 2>checked</#if>>女
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>选择头像</td>
+                                <td>
+                                    <input type="radio" name="icon" value="1" <#if info.icon =="/img/head/1.gif">checked</#if> >
+                                    <img src="/img/head/1.gif">&nbsp;&nbsp;
+                                    <input type="radio" name="icon" value="2" <#if info.icon == "/img/head/2.gif">checked</#if>>
+                                    <img src="/img/head/2.gif">&nbsp;&nbsp;
+                                    <input type="radio" name="icon" value="3" <#if info.icon == "/img/head/3.gif">checked</#if>>
+                                    <img src="/img/head/3.gif">&nbsp;&nbsp;
+                                    <input type="radio" name="icon" value="4" <#if info.icon == "/img/head/4.gif">checked</#if>>
+                                    <img src="/img/head/4.gif">&nbsp;&nbsp;
+                                    <input type="radio" name="icon" value="5" <#if info.icon == "/img/head/5.gif">checked</#if>>
+                                    <img src="/img/head/5.gif">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="30%" style="text-align: right;font-weight: normal;">
+                                </th>
+                                <td style="padding-left: 36px;">
+                                    <input class="btn" type="submit" value="提 交">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </#if>
+
+        </div>
+    </div>
 </div>
 </body>
+<script language="JavaScript">
+    //更改签名提交方法
+    function tijiao() {
+        var uid = document.getElementById("editsiguid").value;
+        var sig = document.getElementById("editedsig").value;
+        $.ajax({
+            url:"/user/changesignature?uid=" + uid + "&sig=" + sig,
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            type:"GET",
+            success:function (data) {
+                console.log(data);
+                var qianming = document.getElementById("qianming");
+                qianming.innerHTML = "签名：" + data;
+                closeEdit();
+            }
+        });
+    }
+    //显示更改签名提交内容填写框
+    function openEdit() {
+        //更改签名框
+        var editsig = document.getElementById("editsignature");
+        //定位依据：更改图标按钮
+        var editsigimg = document.getElementById("editsigimg").getBoundingClientRect();
+        //先设置位置
+        editsig.style.top = editsigimg.y + 14;
+        editsig.style.left = editsigimg.x;
+        //再设置显示
+        editsig.style.display = 'block';
+    }
+    //关闭框
+    function closeEdit() {
+        var editsig = document.getElementById("editsignature");
+        editsig.style.display = "none";
+    }
+</script>
+<div style="position:absolute;bottom:0;width:100%;height:100px;">
+    <#include "common/footer.ftl" />
+</div>
 </html>

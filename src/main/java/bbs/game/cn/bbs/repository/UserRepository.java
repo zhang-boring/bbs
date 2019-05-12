@@ -1,11 +1,14 @@
 package bbs.game.cn.bbs.repository;
 
 import bbs.game.cn.bbs.entity.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
 
 /**
  * @author 张宝运
@@ -65,4 +68,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "select signature from user where uid = :uid", nativeQuery = true)
     String findSignatureByUid(@Param("uid")Long uid);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update user set phone=:phone,email=:email,gender=:gender,icon=:icon,birthday=:birthday where uid=:uid", nativeQuery = true)
+    void updateUserInfo(@Param("uid") Long uid, @Param("phone") String phone, @Param("email") String email, @Param("gender") Integer gender, @Param("icon") String icon, @Param("birthday") String birthday);
+
+    @Query(value = "select count(*) from message where uid =:uid and num=1", nativeQuery = true)
+    Integer getMsgNums(@Param("uid") Long uid);
 }

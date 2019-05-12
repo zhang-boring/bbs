@@ -141,4 +141,9 @@ public class PostServiceImpl implements PostService {
     public Long getPosterId(Long postid) {
         return postRepository.findPosterId(postid);
     }
+
+    @Override
+    public String getPostNameBiPostid(Long postid) {
+        return postRepository.findTitleByPostid(postid);
+    }
 }

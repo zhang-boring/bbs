@@ -128,4 +128,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpec
 
     @Query(value = "select uid from post where postid=:postid", nativeQuery = true)
     Long findPosterId(@Param(value = "postid")Long postid);
+
+    @Query(value = "select title from post where postid = :postid", nativeQuery = true)
+    String findTitleByPostid(@Param(value = "postid")Long postid);
 }

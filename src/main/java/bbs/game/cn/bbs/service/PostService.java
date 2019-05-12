@@ -29,4 +29,6 @@ public interface PostService {
     Long getForumid(Long postid);
 
     Long getPosterId(Long postid);
+
+    String getPostNameBiPostid(Long postid);
 }

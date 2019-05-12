@@ -167,4 +167,5 @@
     </div>
 </div>
 </body>
+<#include "common/footer.ftl" />
 </html>

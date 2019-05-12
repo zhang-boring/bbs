@@ -1,14 +1,19 @@
 package bbs.game.cn.bbs.controller;
 
+import bbs.game.cn.bbs.dto.MessageDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
 import bbs.game.cn.bbs.entity.UserEntity;
 import bbs.game.cn.bbs.form.LoginForm;
 import bbs.game.cn.bbs.form.RegisterForm;
+import bbs.game.cn.bbs.service.MessageService;
+import bbs.game.cn.bbs.service.PostService;
 import bbs.game.cn.bbs.service.UserService;
 import bbs.game.cn.bbs.utils.PostEmailUtil;
 import org.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +36,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private PostService postService;
 
     /**
      * 用户登录:/user/login
@@ -62,7 +73,6 @@ public class UserController {
         }
         modelAndView.addObject("useraction", "login");
         request.getSession().setAttribute("user", userInfo);
-        System.out.println(userInfo.toString());
         modelAndView.setViewName("loginfo");
         return modelAndView;
     }
@@ -188,6 +198,48 @@ public class UserController {
     @RequestMapping("/{uid}")
     public ModelAndView userinfo(@PathVariable Long uid, HttpServletRequest httpServletRequest) {
         UserEntity userEntity = userService.findUser(uid);
-        return null;
+        ModelAndView modelAndView = new ModelAndView("user");
+        modelAndView.addObject("user", userEntity);
+        String tag = httpServletRequest.getParameter("tag") == null ? "index" : httpServletRequest.getParameter("tag");
+        modelAndView.addObject("tag", tag);
+        if (tag.equals("msg")) {
+            List<MessageDTO> messageDTOS = messageService.getMessage(uid);
+            for (MessageDTO messageDTO : messageDTOS) {
+                messageDTO.setPosterUname(userService.findUsernameByUid(messageDTO.getPosteruid()));
+                messageDTO.setPostName(postService.getPostNameBiPostid(messageDTO.getPostid()));
+            }
+            modelAndView.addObject("messages", messageDTOS);
+        }
+        if (tag.equals("modify")) {
+            UserDTO userDTO = new UserDTO();
+            UserEntity userEntity1 = userService.findUser(uid);
+            BeanUtils.copyProperties(userEntity1, userDTO);
+            userDTO.setBirthday(new SimpleDateFormat("yyyy-MM-dd").format(userEntity1.getBirthday()));
+            modelAndView.addObject("info", userDTO);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/readmsg")
+    public ModelAndView readMsg(@RequestParam("postid") String postid, @RequestParam("posteruid") String posteruid, HttpServletRequest request) {
+        if (postid.equals("0") && posteruid.equals(("0"))) {
+            messageService.readAll(((UserDTO)request.getSession().getAttribute("user")).getUid());
+        } else {
+            messageService.read(((UserDTO)request.getSession().getAttribute("user")).getUid(),
+                    Long.parseLong(postid), Long.parseLong(posteruid));
+        }
+        UserDTO userinfo = (UserDTO) request.getSession().getAttribute("user");
+
+        userService.getNewMessage(userinfo);
+        request.getSession().setAttribute("user", userinfo);
+        return new ModelAndView("redirect:/user/" + ((UserDTO)request.getSession().getAttribute("user")).getUid() + "?tag=index");
+    }
+
+    @RequestMapping("/modify")
+    public ModelAndView modify(RegisterForm modifyForm, HttpServletRequest request) {
+        Long uid = ((UserDTO)request.getSession().getAttribute("user")).getUid();
+        modifyForm.setIcon("/img/head/" + modifyForm.getIcon() + ".gif");
+        userService.modify(modifyForm, uid);
+        return new ModelAndView("redirect:/user/" + uid + "?teg=index");
     }
 }

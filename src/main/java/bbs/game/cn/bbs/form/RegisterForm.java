@@ -3,6 +3,7 @@ package bbs.game.cn.bbs.form;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 /**
  * @author 张宝运
@@ -29,6 +30,10 @@ public class RegisterForm {
 
     /** 个性签名 */
     private String signature = "";
+
+    private String birthday;
+
+    private Integer gender;
 
     public RegisterForm(String uname, String password, String phone, String email, String icon, String signature) {
         this.uname = uname;

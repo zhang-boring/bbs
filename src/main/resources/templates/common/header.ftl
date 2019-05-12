@@ -41,12 +41,12 @@
                     <table style="padding-left:8px;">
                         <tr>
                             <td>
-                                <a href="/user/${Session.user.uid}" style="color:#ffffff;margin-right:8px;font-size: 12px;">
+                                <a href="/user/${Session.user.uid}?tag=index" style="color:#ffffff;margin-right:8px;font-size: 12px;">
                                     ${Session.user.uname}
                                 </a>
                             </td>
                             <td>
-                                <a href="/message" style="color:#ffffff;margin-right:8px;font-size: 12px;">
+                                <a href="/user/${Session.user.uid}?tag=msg" style="color:#ffffff;margin-right:8px;font-size: 12px;">
                                     <#if (Session.user.message)!="0">
                                         <#--TODO-->
                                         <img style="float: left;margin-top: 1px;" src="/img/icon/message.gif">
@@ -57,7 +57,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="/userinfo" style="color:#ffffff;margin-right:8px;font-size: 12px;">
+                                <a href="/user/${Session.user.uid}" style="color:#ffffff;margin-right:8px;font-size: 12px;">
                                     设置
                                 </a>
                             </td>
@@ -101,7 +101,7 @@
                                     </div>
                                 </form>
                             <#else>
-                                <a href="/user/${Session.user.uid}">
+                                <a href="/user/${Session.user.uid}?tag=index">
                                     <img src="${Session.user.icon}" style="float: left;bottom: 5px;width: 40px;height: 40px;position: absolute;"/>
                                 </a>
                                 <div style="margin-left: 50px;line-height: 180%">

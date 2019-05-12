@@ -136,4 +136,16 @@ public class PageController {
     public ModelAndView newPostPage() {
         return new ModelAndView("new");
     }
+
+    /**
+     * 后台管理页面
+     * @return
+     */
+    @RequestMapping("/admin")
+    public ModelAndView admin(HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null) {
+            return new ModelAndView("adminlogin");
+        }
+        return new ModelAndView("admin");
+    }
 }

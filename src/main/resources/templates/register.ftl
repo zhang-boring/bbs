@@ -229,6 +229,18 @@
                     </tr>
                     <tr style="height: 40px;font-size: 12px;">
                         <th width="30%" style="text-align: right;font-weight: normal;">
+                            性别
+                        </th>
+                        <td style="padding-left: 36px;">
+                            <div style="margin-top: 10px;">
+                                <input type="radio" name="gender" value="0" checked>保密&nbsp;
+                                <input type="radio" name="gender" value="1">男&nbsp;&nbsp;
+                                <input type="radio" name="gender" value="2">女
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 40px;font-size: 12px;">
+                        <th width="30%" style="text-align: right;font-weight: normal;">
                             手机号
                         </th>
                         <td style="padding-left: 36px;">
@@ -262,6 +274,14 @@
                                 <input type="radio" name="icon" value="5">
                                 <img src="/img/head/5.gif">
                             </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 40px;font-size: 12px;">
+                        <th width="30%" style="text-align: right;font-weight: normal;">
+                            生日
+                        </th>
+                        <td style="padding-left: 36px;">
+                            <input type="date" name="birthday" class="input">
                         </td>
                     </tr>
                     <tr style="height: 40px;font-size: 12px;">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>具体版块页</title>
+    <title>${post.title}</title>
     <#include "common/header.ftl">
     <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
     <link href="/css/css.css" rel="stylesheet" type="text/css">
@@ -503,7 +503,7 @@
                             style="padding:0px;border:0;overflow:hidden">
                             <div class="tiptop" style="">
                                 <span class="fl gray" style="white-space:nowrap;">${post.committime}</span>
-                                <div class="fl bianji">（${poster.signature}）</div>
+                                <div class="fl bianji"><#if poster.signature != "">（${poster.signature}）</#if></div>
                                 <div class="c"></div>
                             </div>
                             <div class="c"></div>
@@ -604,18 +604,79 @@
             </#list>
         </#if>
 
-        <div class="t3" style="margin-top:4px;">
-            <span class="fr color" style="margin-left:.5em">
+
+<#--        <div class="t3" style="margin-top:4px;">-->
+<#--            <span class="fr color" style="margin-left:.5em">-->
+<#--                <a href="/newpost">-->
+<#--                    <img src="/img/icon/post.png">-->
+<#--                </a>-->
+<#--            </span>-->
+<#--            <span class="fr color">-->
+<#--                <a href="#reply" onclick="postreply('回${post.title}的评论', 0);">-->
+<#--                    <img src="/img/icon/reply.png">-->
+<#--                </a>-->
+<#--            </span>-->
+<#--            <span class="fl"></span>-->
+<#--            <div class="c"></div>-->
+<#--        </div>-->
+
+
+
+
+        <div style="margin: 4px auto 3px;">
+            <span style="float: right;">
                 <a href="/newpost">
                     <img src="/img/icon/post.png">
                 </a>
             </span>
-            <span class="fr color">
-                <a href="#reply" onclick="postreply('回${post.title}的评论', 0);">
-                    <img src="/img/icon/reply.png">
-                </a>
+            <span style="float:left;">
+                <div style="float: left;border: 1px solid #dddddd;height: 22px;line-height: 22px;margin: 2px 5px 3px 0;">
+                <ul style="padding: 0;margin: 0;">
+                    <li style="list-style: none;float: left;">
+                        <a href="/post/${post.postid}?page=1"
+                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">«</a>
+                    </li>
+                    <#if comments.totalPages != 0>
+                        <#list 1..comments.totalPages as index>
+                            <#if currentPage == index>
+                                <li style="list-style: none;float: left;">
+                                <b style="padding: 0 5px 0 9px;background: #bbbbbb;display: block;color: #fff;">${index}</b>
+                            </li>
+                        <#else>
+                                <li style="list-style: none;float: left;">
+                                <a href="/post/${post.postid}?page=${index}"
+                                   style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">${index}</a>
+                            </li>
+                            </#if>
+                        </#list>
+                    <#else>
+                    </#if>
+                    <li style="list-style: none;float: left;">
+                        <a href="/post/${post.postid}?page=${comments.totalPages}"
+                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">»</a>
+                    </li>
+                    <li style="height: 22px;margin-left: 5px;border-left: 1px solid #eeeeee;padding-left: 12px;float: left;list-style: none;">Pages:${currentPage}/<#if comments.totalPages == 0>1<#else>${comments.totalPages}</#if>&nbsp;&nbsp;&nbsp;Go:<input
+                                type="text" size="3" id="pageinput"
+                                style="border: 1px solid #eeeeee;font: 12px/15px Verdana;height: 14px;color: #555555;margin-right: 5px;margin-bottom: 3px;padding: 1px 3px 0 3px;vertical-align: middle;"/>
+                    </li>
+                    <script language="JavaScript">
+                            $('#pageinput').bind('keypress', function (event) {
+                                if (event.keyCode == "13") {
+                                    var page = $('#pageinput').val();
+                                    if (page >= ${comments.totalPages} && ${comments.totalPages} != 0) {
+                                        window.location.href = "/post/${post.postid}?page=${comments.totalPages}";
+                                    } else if (page <= 1 || ${comments.totalPages} == 0) {
+                                        window.location.href = "/post/${post.postid}?page=1";
+                                    } else {
+                                        window.location.href = "/post/${post.postid}?page=" + page;
+                                    }
+                                }
+                            })
+                    </script>
+                </ul>
+            </div>
+                <div style="clear: both;"></div>
             </span>
-            <span class="fl"></span>
             <div class="c"></div>
         </div>
 

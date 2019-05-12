@@ -17,10 +17,11 @@ public class ForumDTO {
     /* 版块名称 */
     private String forumname;
     /* 版主用户名，注:在数据库中存储为版主uid */
-    private String moderator;
-    private String moderatorName;
+    private String moderator = "0";
+    private String moderatorName = "";
     /* 版块描述 */
     private String description;
+    private Timestamp createtime;
     /* 图标链接 */
     private String icon;
     /* 当前版块新帖数量 */
@@ -34,6 +35,8 @@ public class ForumDTO {
     private String title;
     private String uname;
     private Timestamp committime;
+
+    private String partname;
 
     public ForumDTO() {
 

@@ -12,7 +12,7 @@ public class RegisterForm2UserEntity {
     public static UserEntity convert(RegisterForm form) {
         UserEntity user = new UserEntity();
         BeanUtils.copyProperties(form, user);
-        user.setIcon("../static/img/head/" + user.getIcon() + ".gif");
+        user.setIcon("/img/head/" + user.getIcon() + ".gif");
         return user;
     }
 }

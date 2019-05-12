@@ -8,6 +8,7 @@ import java.util.Objects;
 public class AdminEntity {
     private long aid;
     private String aname;
+    private String apasswd;
 
     @Id
     @Column(name = "aid")
@@ -29,17 +30,28 @@ public class AdminEntity {
         this.aname = aname;
     }
 
+    @Basic
+    @Column(name = "apasswd")
+    public String getApasswd() {
+        return apasswd;
+    }
+
+    public void setApasswd(String apasswd) {
+        this.apasswd = apasswd;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdminEntity that = (AdminEntity) o;
         return aid == that.aid &&
-                Objects.equals(aname, that.aname);
+                Objects.equals(aname, that.aname) &&
+                Objects.equals(apasswd, that.apasswd);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(aid, aname);
+        return Objects.hash(aid, aname, apasswd);
     }
 }
