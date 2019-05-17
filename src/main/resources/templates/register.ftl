@@ -150,7 +150,7 @@
                                             url:"/user/unameajax",
                                             contentType: "application/json;charset=utf-8",
                                             dataType:"json",
-                                            data:JSON.stringify(uname),
+                                            data:uname,
                                             type:"POST",
                                             success:function(data) {
                                                 //解决ajax回调函数alert(data)为Object object问题，解析返回数据为json字符串
@@ -205,7 +205,7 @@
                                             url:"/user/emailajax",
                                             contentType: "application/json;charset=utf-8",
                                             dataType:"json",
-                                            data:JSON.stringify(email),
+                                            data:email,
                                             type:"POST",
                                             success:function(data) {
                                                 //解决ajax回调函数alert(data)为Object object问题，解析返回数据为json字符串

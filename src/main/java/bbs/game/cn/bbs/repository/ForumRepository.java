@@ -22,7 +22,7 @@ public interface ForumRepository extends JpaRepository<ForumEntity, Long> {
     ForumEntity findByFid(@Param("forumid") Long forumid);
 
     @Query(value = "select new bbs.game.cn.bbs.dto.SimpleForumDTO(forumid,forumname) " +
-            "from ForumEntity where forumid != :forumid",nativeQuery = true)
+            "from ForumEntity where forumid != :forumid")
     List<SimpleForumDTO> findOtherForums(@Param("forumid") Long forumid);
 
     @Query(value = "delete from forum where forumid=:forumid", nativeQuery = true)
@@ -34,4 +34,8 @@ public interface ForumRepository extends JpaRepository<ForumEntity, Long> {
     @Transactional
     @Modifying
     void mvTo(@Param("forumid1") Long forumid1, @Param("forumid2") Long forumid2);
+
+    @Query(value = "select count(*) from forum where partid =:partid", nativeQuery = true)
+    Integer getForums(@Param("partid") Long partid);
+
 }

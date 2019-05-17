@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>管理版块</title>
+    <title>管理分区</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -736,11 +736,11 @@
 <body>
 <div class="container">
     <div class="row clearfix">
-<#--        <div class="col-md-4 column">-->
-<#--            <button type="button" class="btn btn-link btn-default btn-block active"-->
-<#--                    onclick="window.location.href='/admin/addpart'">添加分区-->
-<#--            </button>-->
-<#--        </div>-->
+        <#--        <div class="col-md-4 column">-->
+        <#--            <button type="button" class="btn btn-link btn-default btn-block active"-->
+        <#--                    onclick="window.location.href='/admin/addpart'">添加分区-->
+        <#--            </button>-->
+        <#--        </div>-->
         <div class="col-md-4 column">
             <button type="button" class="btn btn-link btn-default btn-block active"
                     onclick="window.location.href='/admin/managepart'">管理分区
@@ -748,7 +748,7 @@
         </div>
         <div class="col-md-4 column">
             <button type="button" class="btn btn-link btn-default btn-block active"
-                    onclick="window.location.href='/admin/addforum'">添加版块
+                    onclick="window.location.href='/admin/addpart'">添加分区
             </button>
         </div>
         <div class="col-md-4 column">
@@ -790,50 +790,32 @@
             <thead>
             <tr>
                 <th style="width:8%">
-                    版块名
+                    分区名
                 </th>
                 <th style="width:8%">
-                    文章总数
-                </th>
-                <th style="width:8%">
-                    版主用户
-                </th>
-                <th>
-                    版块描述
+                    版块数量
                 </th>
                 <th style="width:15%">
                     创建时间
-                </th>
-                <th style="widows: 8%;">
-                    社区分区
                 </th>
                 <th style="widows: 10%;">
                     操作
                 </th>
             </tr>
-            <#list forums as forum>
+            <#list parts as part>
                 <tr>
                     <td>
-                        ${forum.forumname}
+                        ${part.partname}
                     </td>
                     <td>
-                        ${forum.allPosts}
+                        ${part.forums}
                     </td>
                     <td>
-                        ${forum.moderatorName}
+                        ${part.createtime}
                     </td>
                     <td>
-                        ${forum.description}
-                    </td>
-                    <td>
-                        ${forum.createtime}
-                    </td>
-                    <td>
-                        ${forum.partname}
-                    </td>
-                    <td>
-                        <a href="/admin/remove?forumid=${forum.forumid}">删除</a>
-                        <a href="/admin/modify?forumid=${forum.forumid}">修改</a>
+                        <a href="/admin/rmpart?partid=${part.partid}">删除</a>
+                        <a href="/admin/mdpart?partid=${part.partid}">修改</a>
                     </td>
                 </tr>
             </#list>

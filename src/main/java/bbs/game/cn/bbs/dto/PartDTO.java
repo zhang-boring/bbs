@@ -2,6 +2,7 @@ package bbs.game.cn.bbs.dto;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 
 /**
@@ -14,6 +15,10 @@ public class PartDTO {
     private Long partid;
     /* 区名 */
     private String partname;
+
+    private Integer forums;
+
+    private Timestamp createtime;
 
     public PartDTO() {
     }

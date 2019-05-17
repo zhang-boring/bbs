@@ -19,4 +19,6 @@ public interface ForumService {
 
     void rmAll(Long forumid);
     void mvTo(Long forumid1, Long forumid2);
+    void update(ForumEntity forumEntity);
+    void save(ForumEntity forumEntity);
 }

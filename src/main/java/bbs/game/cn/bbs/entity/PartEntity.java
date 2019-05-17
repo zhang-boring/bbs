@@ -11,6 +11,15 @@ public class PartEntity {
     private String partname;
     private Timestamp createtime;
 
+    public PartEntity(String partname) {
+        this.partname = partname;
+        this.createtime = new Timestamp(System.currentTimeMillis());
+    }
+
+    public PartEntity() {
+
+    }
+
     @Id
     @Column(name = "partid")
     public long getPartid() {

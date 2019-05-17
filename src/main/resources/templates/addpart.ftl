@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>管理版块</title>
+    <title>添加分区</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -11,6 +11,8 @@
     <link href="/js/bootstrap/js/bootstrap.js" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"></script>
     <style type="text/css">
         body {
             padding-top: 40px;
@@ -27,16 +29,14 @@
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
         }
-
         .form-signin .form-signin-heading,
         .form-signin .checkbox {
             margin-bottom: 10px;
         }
-
         .form-signin input[type="text"],
         .form-signin input[type="password"] {
             font-size: 16px;
@@ -44,7 +44,6 @@
             margin-bottom: 15px;
             padding: 7px 9px;
         }
-
         .btn {
             display: inline-block;
             *display: inline;
@@ -722,7 +721,6 @@
             -moz-border-radius: 0 0 6px 6px;
             border-radius: 0 0 6px 6px;
         }
-
     </style>
     <link href="/js/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
 
@@ -736,117 +734,36 @@
 <body>
 <div class="container">
     <div class="row clearfix">
-<#--        <div class="col-md-4 column">-->
-<#--            <button type="button" class="btn btn-link btn-default btn-block active"-->
-<#--                    onclick="window.location.href='/admin/addpart'">添加分区-->
-<#--            </button>-->
-<#--        </div>-->
-        <div class="col-md-4 column">
-            <button type="button" class="btn btn-link btn-default btn-block active"
-                    onclick="window.location.href='/admin/managepart'">管理分区
-            </button>
+        <div class="col-md-12 column">
+            <div class="row clearfix">
+                <div class="col-md-6 column">
+                    <h5 class="text-right">
+                        添加分区(<a href="/admin/list">取消</a>)
+                    </h5>
+                </div>
+                <div class="col-md-6 column">
+                    <h5 class="text-center">
+                        当前登录管理员: ${Session.admin} (<a href="/admin/exit">退出</a>)
+                    </h5>
+                </div>
+            </div>
+            <form class="form-horizontal" role="form" action="/admin/execap" method="post">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">分区名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="partname" name="partname"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="col-md-4 column">
-            <button type="button" class="btn btn-link btn-default btn-block active"
-                    onclick="window.location.href='/admin/addforum'">添加版块
-            </button>
-        </div>
-        <div class="col-md-4 column">
-            <h5 class="text-right">
-                当前登录管理员: ${Session.admin} (<a href="/admin/exit">退出</a>)
-            </h5>
-        </div>
-
-        <#--        <div class="row clearfix">-->
-        <#--            <div class="col-md-4 column">-->
-        <#--                <div class="row clearfix">-->
-        <#--                    <div class="col-md-6 column">-->
-        <#--                        <button type="button" class="btn btn-default active" onclick="window.location.href='/admin/addpart'">添加分区</button>-->
-        <#--                    </div>-->
-        <#--                    <div class="col-md-6 column">-->
-        <#--                        <button type="button" class="btn btn-default active" onclick="window.location.href='/admin/rmpart'">管理分区</button>-->
-        <#--                    </div>-->
-        <#--                </div>-->
-        <#--            </div>-->
-        <#--            <div class="col-md-4 column">-->
-        <#--                <div class="row clearfix">-->
-        <#--                    <div class="col-md-12 column">-->
-        <#--                        <button type="button" class="btn btn-default active" onclick="window.location.href='/admin/addforum'">添加版块</button>-->
-        <#--                    </div>-->
-        <#--                </div>-->
-        <#--            </div>-->
-        <#--            <div class="col-md-4 column">-->
-        <#--                <div class="row clearfix">-->
-        <#--                    <div class="col-md-12 column">-->
-        <#--                        <h5>-->
-        <#--                            当前登录管理员: ${Session.admin} (<a href="/admin/exit">退出</a>)-->
-        <#--                        </h5>-->
-        <#--                    </div>-->
-        <#--                </div>-->
-        <#--            </div>-->
-
-
-        <table class="table table-bordered table-hover table-condensed">
-            <thead>
-            <tr>
-                <th style="width:8%">
-                    版块名
-                </th>
-                <th style="width:8%">
-                    文章总数
-                </th>
-                <th style="width:8%">
-                    版主用户
-                </th>
-                <th>
-                    版块描述
-                </th>
-                <th style="width:15%">
-                    创建时间
-                </th>
-                <th style="widows: 8%;">
-                    社区分区
-                </th>
-                <th style="widows: 10%;">
-                    操作
-                </th>
-            </tr>
-            <#list forums as forum>
-                <tr>
-                    <td>
-                        ${forum.forumname}
-                    </td>
-                    <td>
-                        ${forum.allPosts}
-                    </td>
-                    <td>
-                        ${forum.moderatorName}
-                    </td>
-                    <td>
-                        ${forum.description}
-                    </td>
-                    <td>
-                        ${forum.createtime}
-                    </td>
-                    <td>
-                        ${forum.partname}
-                    </td>
-                    <td>
-                        <a href="/admin/remove?forumid=${forum.forumid}">删除</a>
-                        <a href="/admin/modify?forumid=${forum.forumid}">修改</a>
-                    </td>
-                </tr>
-            </#list>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
     </div>
 </div>
-
-
-</div> <!-- /container -->
-
 </body>
+
 </html>

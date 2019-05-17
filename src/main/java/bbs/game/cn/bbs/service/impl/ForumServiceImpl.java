@@ -9,12 +9,14 @@ import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.ForumService;
 import bbs.game.cn.bbs.service.PartService;
+import bbs.game.cn.bbs.utils.ModifyEntityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -97,10 +99,24 @@ public class ForumServiceImpl implements ForumService {
     @Override
     public void rmAll(Long forumid) {
         forumRepository.rmAll(forumid);
+        forumRepository.deleteById(forumid);
     }
 
     @Override
     public void mvTo(Long forumid, Long toforumid) {
         forumRepository.mvTo(forumid, toforumid);
+        forumRepository.deleteById(forumid);
+    }
+
+    @Override
+    public void update(ForumEntity forumEntity) {
+        ModifyEntityUtil.getModified(forumRepository.findByFid(forumEntity.getForumid()), forumEntity);
+        forumRepository.save(forumEntity);
+    }
+
+    @Override
+    public void save(ForumEntity forumEntity) {
+        forumEntity.setCreatetime(new Timestamp(System.currentTimeMillis()));
+        forumRepository.save(forumEntity);
     }
 }

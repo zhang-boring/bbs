@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author 张宝运
  */
@@ -15,4 +17,8 @@ public interface PartRepository extends JpaRepository<PartEntity, Long> {
 
     @Query(value = "select partname from part where partid = (select partid from forum where forumid = :forumid)", nativeQuery = true)
     String findPartnameByForumid(@Param("forumid") Long forumid);
+
+
+    @Query(value = "select * from part where partid!=:partid", nativeQuery = true)
+    List<PartEntity> findOtherPart(@Param("partid") Long partid);
 }

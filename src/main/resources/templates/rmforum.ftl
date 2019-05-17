@@ -69,7 +69,7 @@
                     </h5>
                 </div>
             </div>
-            <form method="post" action="/admin/execrm">
+            <form method="post" action="/admin/execrm" name="removeInfo">
                 <table class="table table-bordered table-hover table-condensed">
                 <tbody>
                 <tr>
@@ -139,7 +139,7 @@
                         确认删除
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default active">确认删除</button>
+                        <input type="submit" class="btn btn-default active" value="确认删除"></input>
                     </td>
                 </tr>
                 </tbody>

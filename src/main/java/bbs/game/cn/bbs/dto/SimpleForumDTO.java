@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Data
 @ToString
 public class SimpleForumDTO implements Serializable {
-    private static final long serialVersionUID = 4125531458648416706L;
     private Long forumid;
     private String forumname;
 
