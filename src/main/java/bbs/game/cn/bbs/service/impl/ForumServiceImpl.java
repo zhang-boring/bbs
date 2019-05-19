@@ -124,4 +124,9 @@ public class ForumServiceImpl implements ForumService {
     public Long getModeratorUid(Long forumid) {
         return forumRepository.getModerator(forumid);
     }
+
+    @Override
+    public Long getForumidByPostid(Long postid) {
+        return postRepository.getForumid(postid);
+    }
 }

@@ -9,16 +9,6 @@
             padding-right:15px;vertical-align:middle;border:1px solid #dddddd;
         }
     </style>
-    <script>
-        //搜索框监听
-        $('#search').bind("keypress", function(event) {
-            if (event.keyCode == "13") {
-                var search = $('#search').val();
-                a = search;
-                window.location.href = "/search?search='" + search + "'";
-            }
-        });
-    </script>
 </head>
 <body style="background-image: url('/img/bg/bg.gif');repeat-y;background-position:center center;">
 <div id="wrapA">
@@ -283,4 +273,12 @@
     // function IsElement(id) {
     //     return document.getElementById(id) != null ? true : false;
     // }
+    //搜索框监听
+    $('#search').bind("keypress", function(event) {
+        if (event.keyCode == "13") {
+            var search = $('#search').val();
+            a = search;
+            window.location.href = "/search?search='" + search + "'";
+        }
+    });
 </script>

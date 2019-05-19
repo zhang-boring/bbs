@@ -22,4 +22,5 @@ public interface ForumService {
     void update(ForumEntity forumEntity);
     void save(ForumEntity forumEntity);
     Long getModeratorUid(Long forumid);
+    Long getForumidByPostid(Long postid);
 }

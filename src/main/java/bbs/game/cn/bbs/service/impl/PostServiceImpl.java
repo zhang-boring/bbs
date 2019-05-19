@@ -8,6 +8,7 @@ import bbs.game.cn.bbs.repository.ForumRepository;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.CommentService;
+import bbs.game.cn.bbs.service.ESService;
 import bbs.game.cn.bbs.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,8 @@ public class PostServiceImpl implements PostService {
     ForumRepository forumRepository;
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    ESService esService;
 
     /**
      * 数据库内目前所有文章数
@@ -170,6 +173,7 @@ public class PostServiceImpl implements PostService {
     public void delete(Long postid) {
         postRepository.deleteById(postid);
         commentRepository.deleteByPostid(postid);
+        esService.delete(postid);
     }
 
     @Override
@@ -182,5 +186,10 @@ public class PostServiceImpl implements PostService {
             postDTO.setForumname(forumRepository.findForumnameByForumid(postRepository.getForumid(postDTO.getPostid())));
         }
         return postDTOS;
+    }
+
+    @Override
+    public Long countReplynumByPostid(Long postid) {
+        return postRepository.countReplynumByPostid(postid);
     }
 }

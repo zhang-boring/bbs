@@ -73,7 +73,14 @@ public class ESServiceImpl implements ESService {
 
     @Override
     public void delete(Long postid) {
-
+        String id = esRepository.findEsidByPostid(postid);
+        esRepository.deleteById(postid);
+        Delete delete = new Delete.Builder(id).index(ElasticSearchEntity.INDEX_NAME).type(ElasticSearchEntity.TYPE).build();
+        try {
+            jestClient.execute(delete);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,6 +97,4 @@ public class ESServiceImpl implements ESService {
             e.printStackTrace();
         }
     }
-
-
 }

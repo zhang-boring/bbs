@@ -1,14 +1,18 @@
 package bbs.game.cn.bbs.controller;
 
+import bbs.game.cn.bbs.convert.PostEntity2PostDTO;
 import bbs.game.cn.bbs.dto.CommentDTO;
+import bbs.game.cn.bbs.dto.PostDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
 import bbs.game.cn.bbs.entity.CommentEntity;
+import bbs.game.cn.bbs.entity.ElasticSearchEntity;
 import bbs.game.cn.bbs.entity.PostEntity;
 import bbs.game.cn.bbs.entity.UserEntity;
 import bbs.game.cn.bbs.form.CommentForm;
 import bbs.game.cn.bbs.form.PostForm;
 import bbs.game.cn.bbs.service.*;
 import bbs.game.cn.bbs.utils.RandomValue;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +61,8 @@ public class PostController {
     private String ckeditorAccessImageUrl;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private ESService esService;
 
     /**
      * 公告页面
@@ -70,13 +76,26 @@ public class PostController {
         return modelAndView;
     }
 
+    /**
+     * 删除文章
+     * @param postid
+     * @param request
+     * @return
+     */
     @RequestMapping("/delete")
     public String delete(@RequestParam("postid") Long postid, HttpServletRequest request) {
         postService.delete(postid);
         return "redirect:/user/" + ((UserDTO)request.getSession().getAttribute("user")).getUid() + "?tag=mypost";
     }
 
-
+    /**
+     * 文章页面
+     * @param postid
+     * @param page
+     * @param size
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/{postid}", method = RequestMethod.GET)
     public ModelAndView postPage(@PathVariable("postid") Long postid,
                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -170,8 +189,12 @@ public class PostController {
         postEntity.setUid(((UserDTO)session.getAttribute("user")).getUid());
         postEntity.setLastchagetime(ts);
         postEntity.setCommittime(ts);
-        postEntity.setForumid(Long.parseLong((String) forumid));
-        postService.insert(postEntity);
+        postEntity.setForumid(Long.parseLong(forumid));
+        PostDTO savedDTO = PostEntity2PostDTO.convert(postService.insert(postEntity));
+        savedDTO.setUname(userService.findUsernameByUid(savedDTO.getUid()));
+        savedDTO.setReplyNum(postService.countReplynumByPostid(savedDTO.getPostid()));
+        savedDTO.setForumname(forumService.findForumnameByForumid(forumService.getForumidByPostid(savedDTO.getPostid())));
+        esService.saveEntity(new ElasticSearchEntity(JSON.toJSONString(savedDTO)));
         modelAndView.setViewName("redirect:/forum/" + forumid);
         return modelAndView;
     }

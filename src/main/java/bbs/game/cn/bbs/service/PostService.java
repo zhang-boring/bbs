@@ -36,4 +36,6 @@ public interface PostService {
     void delete(Long postid);
 
     List<PostDTO> findAll();
+
+    Long countReplynumByPostid(Long postid);
 }

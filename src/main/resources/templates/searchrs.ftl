@@ -64,6 +64,7 @@
                style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;">
             <tbody>
             <tr style="padding: 0px;margin: 0px;border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;text-align: left;color: #333333;line-height: 200%;">
+                <td style="width:9em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">版块</td>
                 <td style="text-align: center;">文章</td>
                 <td style="width:8em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">作者</td>
                 <td style="width:6em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;text-align: left;">
@@ -73,6 +74,7 @@
             </tr>
             <#list result as post>
                 <tr style="line-height: 130%;background: #ffffff;" align="center">
+                    <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">${post.forumname}</td>
                     <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
                         <h3 style="font-weight: normal;display: inline;font-size: 12px;">
                             <a href="/post/${post.postid}">
