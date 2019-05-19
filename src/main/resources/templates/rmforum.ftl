@@ -125,7 +125,7 @@
                         删除方式
                     </td>
                     <td>
-                        <input type="hidden" name="forumid" value="${forum.forumid}">
+                        <input type="hidden" name="id" value="${forum.forumid}">
                         <input type="radio" name="rmtype" value="1" checked>级联删除
                         <input type="radio" name="rmtype" value="2">移动到版块:<select name="toforum">
                             <#list forumsname as fname>

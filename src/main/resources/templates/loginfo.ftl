@@ -10,6 +10,8 @@
                 登入
             <#elseif useraction == "register">
                 注册
+            <#elseif useraction == "重置密码">
+                ${useraction}
             </#if>
         <#else>
             操作
@@ -43,6 +45,8 @@
                 登入
             <#elseif useraction == "register">
                 注册
+            <#elseif useraction == "重置密码">
+                重置密码，请查看邮箱并修改密码。
             </#if>
         <#else>
             提交

@@ -679,8 +679,8 @@
             </span>
             <div class="c"></div>
         </div>
-
-        <div class="t5" style="margin-top:5px">
+<#if Session.forumid != 40>
+    <div class="t5" style="margin-top:5px">
             <a name="reply" />
             <table cellspacing="0" cellpadding="0" align="center" width="100%">
                 <tbody>
@@ -698,8 +698,10 @@
                 <tr>
                     <td colspan="2" class="f_one" style="padding:7px">
                         <div style="margin-left: 30%">
-                            <form name="FORM" action="/post/comment" method="post">
-                                <input name="firstuid" type="hidden" value="${Session.user.uid}" />
+                            <form name="FORM" id="form" action="/post/comment" method="post"
+                                  onsubmit="checksubmit()"
+                            >
+                                <input name="firstuid" type="hidden" value="<#if (Session.user)??>${Session.user.uid}<#else></#if>" />
                                 <input name="seconduid" type="hidden" value="0"/>
                                 <input name="postid" type="hidden" value="${post.postid}" />
                                 <div>
@@ -719,6 +721,8 @@
                 </tbody>
             </table>
         </div>
+</#if>
+
     </div>
 </div>
 </body>
@@ -727,6 +731,15 @@
         document.FORM.atc_title.value = txt;
         document.FORM.seconduid.value = uid;
         document.FORM.atc_content.focus();
+    }
+    function checksubmit() {
+        console.log(sessionStorage.getItem("user"));
+        if (sessionStorage.getItem("user") != null) {
+            var form = document.getElementById("form");
+            form.submit();
+        } else {
+            location="/errorpage?errorInfo='请先登录！'";
+        }
     }
 </script>
 <#include "common/footer.ftl" />

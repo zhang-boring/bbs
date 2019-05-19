@@ -1,10 +1,14 @@
 package bbs.game.cn.bbs.controller;
 
+import bbs.game.cn.bbs.convert.UserEntity2UserDTO;
 import bbs.game.cn.bbs.dto.MessageDTO;
+import bbs.game.cn.bbs.dto.PostDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
 import bbs.game.cn.bbs.entity.UserEntity;
 import bbs.game.cn.bbs.form.LoginForm;
 import bbs.game.cn.bbs.form.RegisterForm;
+import bbs.game.cn.bbs.form.ResetPasswordForm;
+import bbs.game.cn.bbs.service.ForumService;
 import bbs.game.cn.bbs.service.MessageService;
 import bbs.game.cn.bbs.service.PostService;
 import bbs.game.cn.bbs.service.UserService;
@@ -40,21 +44,27 @@ public class UserController {
     private MessageService messageService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private ForumService forumService;
 
     /**
      * 用户登录:/user/login
      * @param form
-     * @param result
      * @param request
      * @return
      */
     @RequestMapping("/login")
-    public ModelAndView login(@Valid LoginForm form, BindingResult result, HttpServletRequest request) {
+    public ModelAndView login(LoginForm form, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         //判断表单数据填写是否规范
-        if (result.hasErrors()) {
-            System.out.println(result.getFieldError().getDefaultMessage());
-            modelAndView.addObject("errorInfo", result.getFieldError().getDefaultMessage());
+//        if (result.hasErrors()) {
+//            System.out.println(result.getFieldError().getDefaultMessage());
+//            modelAndView.addObject("errorInfo", result.getFieldError().getDefaultMessage());
+//            modelAndView.setViewName("redirect:/errorpage");
+//            return modelAndView;
+//        }
+        if (form.getUsercheck().trim().equals("请输入用户名") || form.getUsercheck().trim().equals("") || form.getPassword().equals("")) {
+            modelAndView.addObject("errorInfo", "用户名或密码为空");
             modelAndView.setViewName("redirect:/errorpage");
             return modelAndView;
         }
@@ -185,8 +195,8 @@ public class UserController {
                 modelAndView.addObject("errorinfo", "发送邮件错误！");
                 return modelAndView;
             }
-            modelAndView.setViewName("success");
-            modelAndView.addObject("successinfo", "找回密码成功，请查看邮箱。");
+            modelAndView.setViewName("loginfo");
+            modelAndView.addObject("useraction", "重置密码");
             return modelAndView;
         } else {
             modelAndView.setViewName("error");
@@ -195,11 +205,23 @@ public class UserController {
         }
     }
 
+    /**
+     * 个人信息界面
+     * @param uid
+     * @param httpServletRequest
+     * @return
+     */
     @RequestMapping("/{uid}")
     public ModelAndView userinfo(@PathVariable Long uid, HttpServletRequest httpServletRequest) {
         UserEntity userEntity = userService.findUser(uid);
+        UserDTO userinfo = UserEntity2UserDTO.convert(userEntity);
+        if (userEntity.getLevel() != 0) {
+            String forumName = forumService.findForumnameByForumid(Long.valueOf(userinfo.getLevel()));
+            userinfo.setIdentity(forumName + "版主");
+            userinfo.setBirthday(new SimpleDateFormat("yyyy-MM-dd").format(userEntity.getBirthday()));
+        }
         ModelAndView modelAndView = new ModelAndView("user");
-        modelAndView.addObject("user", userEntity);
+        modelAndView.addObject("user", userinfo);
         String tag = httpServletRequest.getParameter("tag") == null ? "index" : httpServletRequest.getParameter("tag");
         modelAndView.addObject("tag", tag);
         if (tag.equals("msg")) {
@@ -217,9 +239,20 @@ public class UserController {
             userDTO.setBirthday(new SimpleDateFormat("yyyy-MM-dd").format(userEntity1.getBirthday()));
             modelAndView.addObject("info", userDTO);
         }
+        if (tag.equals("mypost")) {
+            List<PostDTO> postDTOS = postService.getMyPosts(uid);
+            modelAndView.addObject("myposts", postDTOS);
+        }
         return modelAndView;
     }
 
+    /**
+     * 读取未读消息
+     * @param postid
+     * @param posteruid
+     * @param request
+     * @return
+     */
     @RequestMapping("/readmsg")
     public ModelAndView readMsg(@RequestParam("postid") String postid, @RequestParam("posteruid") String posteruid, HttpServletRequest request) {
         if (postid.equals("0") && posteruid.equals(("0"))) {
@@ -235,11 +268,41 @@ public class UserController {
         return new ModelAndView("redirect:/user/" + ((UserDTO)request.getSession().getAttribute("user")).getUid() + "?tag=index");
     }
 
+    /**
+     * 修改个人信息
+     * @param modifyForm
+     * @param request
+     * @return
+     */
     @RequestMapping("/modify")
     public ModelAndView modify(RegisterForm modifyForm, HttpServletRequest request) {
         Long uid = ((UserDTO)request.getSession().getAttribute("user")).getUid();
         modifyForm.setIcon("/img/head/" + modifyForm.getIcon() + ".gif");
         userService.modify(modifyForm, uid);
         return new ModelAndView("redirect:/user/" + uid + "?teg=index");
+    }
+
+    /**
+     * 重置密码页面
+     * @return
+     */
+    @RequestMapping("/resetpw")
+    public ModelAndView repw() {
+        return new ModelAndView("repw");
+    }
+
+    @RequestMapping("/mdpw")
+    public ModelAndView mdpw(ResetPasswordForm form, HttpServletRequest request) {
+        Long userid = ((UserDTO)request.getSession().getAttribute("user")).getUid();
+        ModelAndView modelAndView = new ModelAndView();
+        if (userService.checkpw(userid, form.getOldpw())) {
+            userService.setPassword(userid, form.getNewpw());
+            request.getSession().invalidate();
+            modelAndView.setViewName("redirect:/index");
+        } else {
+            modelAndView.addObject("errorinfo", "密码输入错误。");
+            modelAndView.setViewName("error");
+        }
+        return modelAndView;
     }
 }

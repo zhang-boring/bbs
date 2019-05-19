@@ -4,6 +4,7 @@ import bbs.game.cn.bbs.dto.CommentDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
 import bbs.game.cn.bbs.entity.CommentEntity;
 import bbs.game.cn.bbs.entity.PostEntity;
+import bbs.game.cn.bbs.entity.UserEntity;
 import bbs.game.cn.bbs.form.CommentForm;
 import bbs.game.cn.bbs.form.PostForm;
 import bbs.game.cn.bbs.service.*;
@@ -57,6 +58,10 @@ public class PostController {
     @Autowired
     private MessageService messageService;
 
+    /**
+     * 公告页面
+     * @return
+     */
     @RequestMapping("/gonggao")
     public ModelAndView gonggao() {
         ModelAndView modelAndView = new ModelAndView();
@@ -64,6 +69,13 @@ public class PostController {
         modelAndView.addObject("gglist", postService.getGonggao());
         return modelAndView;
     }
+
+    @RequestMapping("/delete")
+    public String delete(@RequestParam("postid") Long postid, HttpServletRequest request) {
+        postService.delete(postid);
+        return "redirect:/user/" + ((UserDTO)request.getSession().getAttribute("user")).getUid() + "?tag=mypost";
+    }
+
 
     @RequestMapping(value = "/{postid}", method = RequestMethod.GET)
     public ModelAndView postPage(@PathVariable("postid") Long postid,
@@ -141,7 +153,11 @@ public class PostController {
         ModelAndView modelAndView = new ModelAndView();
         if (result.hasErrors()) {
             System.out.println(result.getFieldError().getDefaultMessage());
-            modelAndView.addObject("errorInfo", result.getFieldError().getDefaultMessage());
+            modelAndView.setViewName("redirect:/errorpage?errorInfo=" + result.getFieldError().getDefaultMessage());
+            return modelAndView;
+        }
+        if (request.getSession().getAttribute("user") == null) {
+            modelAndView.addObject("errorInfo", "请先登录！");
             modelAndView.setViewName("redirect:/errorpage");
             return modelAndView;
         }

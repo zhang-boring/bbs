@@ -90,7 +90,7 @@
                             删除方式
                         </td>
                         <td>
-                            <input type="hidden" name="partid" value="${part.partid}">
+                            <input type="hidden" name="id" value="${part.partid}">
                             <input type="radio" name="rmtype" value="1" checked><a style="color: RED;">级联删除(注:会删除所有分区版块所有文章)</a>
                             <input type="radio" name="rmtype" value="2">移动到分区:<select name="part">
                                 <#list parts as part>

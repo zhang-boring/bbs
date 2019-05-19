@@ -92,6 +92,7 @@ public class AdminController {
     @RequestMapping("/managepart")
     public ModelAndView managepart() {
         ModelAndView modelAndView = new ModelAndView("managepart");
+        System.out.println(partService.findAll());
         modelAndView.addObject("parts", partService.findAll());
         return modelAndView;
     }
@@ -110,9 +111,25 @@ public class AdminController {
         return modelAndView;
     }
 
+    /**
+     * 修改分区页面
+     * @param partid
+     * @return
+     */
     @RequestMapping("mdpart")
     public ModelAndView mdpart(@RequestParam("partid") String partid) {
-        return new ModelAndView("redirect:/admin/list");
+        ModelAndView modelAndView = new ModelAndView("mdpart");
+        modelAndView.addObject("part", partService.findByPartid(Long.valueOf(partid)));
+        return modelAndView;
+    }
+
+    /**
+     * 执行修改分区操作
+     */
+    @RequestMapping("execmdp")
+    public String execmdp(PartEntity partEntity){
+        partService.modify(partEntity);
+        return "redirect:/admin/managepart";
     }
 
     /**
@@ -159,8 +176,9 @@ public class AdminController {
 
     @RequestMapping("/execrmpart")
     public String execrmpart(RemoveInfo removeInfo) {
+        //删除分区内所有内容
         if (removeInfo.getRmtype().equals("1")) {
-            forumService.rmAll(removeInfo.getId());
+            partService.removeAll(removeInfo.id);
         } else {
             forumService.mvTo(removeInfo.getId(), removeInfo.getToid());
         }
@@ -221,7 +239,7 @@ public class AdminController {
     @Data
     private class RemoveInfo {
         private Long id;
-        private Long rmtype;
+        private String rmtype;
         private Long toid;
     }
 }

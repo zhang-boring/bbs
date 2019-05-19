@@ -26,4 +26,6 @@ public interface UserService {
     String findUsernameByUid(Long uid);
     String findUserIconByUid(Long uid);
     UserEntity modify(RegisterForm modifyForm, Long uid);
+    boolean checkpw(Long uid, String passwd);
+    void setPassword(Long uid, String newPw);
 }

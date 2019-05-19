@@ -76,4 +76,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "select count(*) from message where uid =:uid and num=1", nativeQuery = true)
     Integer getMsgNums(@Param("uid") Long uid);
+
+    @Query(value = "select * from user where uid=:uid and password=:passwd", nativeQuery = true)
+    UserEntity checkPswd(@Param("uid") Long uid, @Param("passwd") String passws);
+
+    @Query(value = "update user set password=:pw where uid=:uid", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void modifyPassword(@Param("uid") Long uid, @Param("pw") String passwd);
 }

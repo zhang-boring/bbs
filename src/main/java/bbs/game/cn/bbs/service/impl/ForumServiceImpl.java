@@ -119,4 +119,9 @@ public class ForumServiceImpl implements ForumService {
         forumEntity.setCreatetime(new Timestamp(System.currentTimeMillis()));
         forumRepository.save(forumEntity);
     }
+
+    @Override
+    public Long getModeratorUid(Long forumid) {
+        return forumRepository.getModerator(forumid);
+    }
 }

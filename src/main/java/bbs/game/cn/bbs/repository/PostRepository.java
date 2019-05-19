@@ -8,10 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -131,4 +134,12 @@ public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpec
 
     @Query(value = "select title from post where postid = :postid", nativeQuery = true)
     String findTitleByPostid(@Param(value = "postid")Long postid);
+
+    @Query(value = "delete from post where forumid=:forumid", nativeQuery = true)
+    @Transactional
+    @Modifying
+    void deleteByForumid(@Param("forumid") Long forumid);
+
+    @Query(value = "select * from post where uid=:uid and announce != 1", nativeQuery = true)
+    List<PostEntity> findAllByUid(@Param("uid") Long uid);
 }

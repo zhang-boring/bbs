@@ -38,4 +38,9 @@ public interface ForumRepository extends JpaRepository<ForumEntity, Long> {
     @Query(value = "select count(*) from forum where partid =:partid", nativeQuery = true)
     Integer getForums(@Param("partid") Long partid);
 
+    @Query(value = "select forumid from forum where partid=:partid", nativeQuery = true)
+    List<Long> findForums(@Param("partid") Long partid);
+
+    @Query(value = "select moderator from forum where forumid=:forumid", nativeQuery = true)
+    Long getModerator(@Param("forumid") Long forumid);
 }

@@ -21,4 +21,5 @@ public interface ForumService {
     void mvTo(Long forumid1, Long forumid2);
     void update(ForumEntity forumEntity);
     void save(ForumEntity forumEntity);
+    Long getModeratorUid(Long forumid);
 }

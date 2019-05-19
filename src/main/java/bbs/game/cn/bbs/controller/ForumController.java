@@ -8,6 +8,7 @@ import bbs.game.cn.bbs.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,8 @@ public class ForumController {
         session.setAttribute("partname", partService.findPartnameByForumid(forumid));
         session.setAttribute("forumname", forumService.findForumnameByForumid(forumid));
         session.setAttribute("forumid", forumid);
-        PageRequest pageRequest = new PageRequest(page - 1, size);
+        session.setAttribute("moderator", forumService.getModeratorUid(forumid));
+        PageRequest pageRequest = new PageRequest(page - 1, size, new Sort(Sort.Direction.DESC, "lastchagetime"));
         //查询条件
         Specification<PostEntity> postDTOSpecification = new Specification<PostEntity>() {
             @Override

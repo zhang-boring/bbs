@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>具体版块页</title>
+    <title>搜索结果页</title>
     <#include "common/header.ftl">
     <script src="/js/jquery-3.3.1.js"></script>
     <style>
@@ -55,10 +55,7 @@
             <strong class="strong">游玩 G&P</strong>
         </a>
         <a class="gonggao-item">
-            <strong class="strong">${Session.partname}</strong>
-        </a>
-        <a class="gonggao-item">
-            <strong class="strong">${Session.forumname}</strong>
+            <strong class="strong">搜索</strong>
         </a>
         <div style="clear: both;"></div>
     </div>
@@ -74,7 +71,7 @@
                 </td>
                 <td style="width:9em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">最新回复</td>
             </tr>
-            <#list postDTOPage.content as post>
+            <#list result as post>
                 <tr style="line-height: 130%;background: #ffffff;" align="center">
                     <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
                         <h3 style="font-weight: normal;display: inline;font-size: 12px;">
@@ -104,65 +101,7 @@
             </tbody>
         </table>
         <br/>
-        <div style="margin: 4px auto 3px;">
-            <span style="float: right;">
-                <#if (Session.user)??>
-                    <#if (Session.user.uid) == moderator>
-                        <a href="/newgonggao">
-                            <img src="/img/icon/gonggao.png">
-                        </a>
-                    </#if>
-                </#if>
-                <a href="/newpost">
-                    <img src="/img/icon/post.png">
-                </a>
-            </span>
-            <span style="float:left;">
-                <div style="float: left;border: 1px solid #dddddd;height: 22px;line-height: 22px;margin: 2px 5px 3px 0;">
-                <ul style="padding: 0;margin: 0;">
-                    <li style="list-style: none;float: left;">
-                        <a href="/forum/${forumid}?page=1"
-                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">«</a>
-                    </li>
-                    <#list 1..postDTOPage.totalPages as index>
-                        <#if currentPage == index>
-                            <li style="list-style: none;float: left;">
-                                <b style="padding: 0 5px 0 9px;background: #bbbbbb;display: block;color: #fff;">${index}</b>
-                            </li>
-                        <#else>
-                            <li style="list-style: none;float: left;">
-                                <a href="/forum/${forumid}?page=${index}"
-                                   style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">${index}</a>
-                            </li>
-                        </#if>
-                    </#list>
-                    <li style="list-style: none;float: left;">
-                        <a href="/forum/${forumid}?page=${postDTOPage.totalPages}"
-                           style="display: block;padding: 0 7px 0 7px;font-weight: bold;color: #000000;text-decoration: none;">»</a>
-                    </li>
-                    <li style="height: 22px;margin-left: 5px;border-left: 1px solid #eeeeee;padding-left: 12px;float: left;list-style: none;">Pages:${currentPage}/${postDTOPage.totalPages}&nbsp;&nbsp;&nbsp;Go:<input
-                                type="text" size="3" id="pageinput"
-                                style="border: 1px solid #eeeeee;font: 12px/15px Verdana;height: 14px;color: #555555;margin-right: 5px;margin-bottom: 3px;padding: 1px 3px 0 3px;vertical-align: middle;"/>
-                    </li>
-                    <script language="JavaScript">
-                            $('#pageinput').bind('keypress', function (event) {
-                                if (event.keyCode == "13") {
-                                    var page = $('#pageinput').val();
-                                    if (page >= ${postDTOPage.totalPages}) {
-                                        window.location.href = "/forum/${forumid}?page=${postDTOPage.totalPages}";
-                                    } else if (page <= 1) {
-                                        window.location.href = "/forum/${forumid}?page=1";
-                                    } else {
-                                        window.location.href = "/forum/${forumid}?page=" + page;
-                                    }
-                                }
-                            })
-                    </script>
-                </ul>
-            </div>
-                <div style="clear: both;"></div>
-            </span>
-        </div>
+        <div class="c"></div>
     </div>
 </div>
 <#include "common/footer.ftl" />

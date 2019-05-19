@@ -3,14 +3,18 @@ package bbs.game.cn.bbs.service.impl;
 import bbs.game.cn.bbs.convert.PostEntity2PostDTO;
 import bbs.game.cn.bbs.dto.PostDTO;
 import bbs.game.cn.bbs.entity.PostEntity;
+import bbs.game.cn.bbs.repository.CommentRepository;
+import bbs.game.cn.bbs.repository.ForumRepository;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
+import bbs.game.cn.bbs.service.CommentService;
 import bbs.game.cn.bbs.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -24,6 +28,10 @@ public class PostServiceImpl implements PostService {
     PostRepository postRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ForumRepository forumRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     /**
      * 数据库内目前所有文章数
@@ -145,5 +153,34 @@ public class PostServiceImpl implements PostService {
     @Override
     public String getPostNameBiPostid(Long postid) {
         return postRepository.findTitleByPostid(postid);
+    }
+
+    @Override
+    public List<PostDTO> getMyPosts(Long uid) {
+        List<PostEntity> postEntities = postRepository.findAllByUid(uid);
+        List<PostDTO> postDTOS =  PostEntity2PostDTO.convert(postEntities);
+        for (PostDTO postDTO : postDTOS) {
+            postDTO.setReplyNum(postRepository.countReplynumByPostid(postDTO.getPostid()));
+            postDTO.setForumname(forumRepository.findForumnameByForumid(postRepository.getForumid(postDTO.getPostid())));
+        }
+        return postDTOS;
+    }
+
+    @Override
+    public void delete(Long postid) {
+        postRepository.deleteById(postid);
+        commentRepository.deleteByPostid(postid);
+    }
+
+    @Override
+    public List<PostDTO> findAll() {
+        List<PostEntity> postEntities = postRepository.findAll();
+        List<PostDTO> postDTOS =  PostEntity2PostDTO.convert(postEntities);
+        for (PostDTO postDTO : postDTOS) {
+            postDTO.setUname((String) userRepository.findUnameByUid(postDTO.getUid()));
+            postDTO.setReplyNum(postRepository.countReplynumByPostid(postDTO.getPostid()));
+            postDTO.setForumname(forumRepository.findForumnameByForumid(postRepository.getForumid(postDTO.getPostid())));
+        }
+        return postDTOS;
     }
 }

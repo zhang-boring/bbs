@@ -1,4 +1,8 @@
 spring:
+  elasticsearch:
+    jest:
+      uris: http://192.168.42.230:9200
+      connection-timeout: 60000
   datasource:   #mysql数据库配置，使用DriverSpy驱动来捕捉发送到MySql的信息，输出查看查询语句
     driver-class-name: net.sf.log4jdbc.DriverSpy
     username: root

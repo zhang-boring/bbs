@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = UserEntity2UserDTO.convert(userEntity);
         if (userEntity.getLevel() != 0) {
             String forumName = forumRepository.findForumnameByForumid(Long.valueOf(userEntity.getLevel()));
-            userDTO.setLevel(forumName + "版主");
+            userDTO.setIdentity(forumName + "版主");
         }
         return userDTO;
     }
@@ -128,7 +128,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户登录时，获取离线新消息数
-     * TODO
      * @param userDTO
      */
     @Override
@@ -207,5 +206,15 @@ public class UserServiceImpl implements UserService {
         String birthday = modifyForm.getBirthday() == null ? "1990-01-01" : modifyForm.getBirthday();
         userRepository.updateUserInfo(uid, phone, email, gender, icon, birthday);
         return userRepository.findByUid(uid);
+    }
+
+    @Override
+    public boolean checkpw(Long uid, String passwd) {
+        return userRepository.checkPswd(uid, passwd) != null;
+    }
+
+    @Override
+    public void setPassword(Long uid, String newPw) {
+        userRepository.modifyPassword(uid, newPw);
     }
 }

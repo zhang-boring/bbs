@@ -121,7 +121,7 @@
                             邮&nbsp;&nbsp;&nbsp;箱
                         </th>
                         <td style="padding-left: 36px;">
-                            <input class="input gray" type="text" maxlength="16"
+                            <input class="input gray" type="text" maxlength="50"
                                    name="email" size="20" onblur="checkemail()" id="email"
                                    style="font-size: 12px;color: gray; margin-right: 4px;">
                             <span id="emailts" style="font-size: 12px;">请输入注册账号时填写的邮箱</span>

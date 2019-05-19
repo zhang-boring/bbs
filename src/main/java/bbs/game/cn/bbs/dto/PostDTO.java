@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 public class PostDTO {
     //文章id
-    private long postid;
+    private Long postid;
     //文章标题
     private String title;
     //发布人uid、用户名
@@ -25,10 +25,12 @@ public class PostDTO {
     //文章评论数
     private Long replyNum;
 
+    private String forumname;
+
     public PostDTO() {
     }
 
-    public PostDTO(long postid, String title, String uname, Timestamp committime,
+    public PostDTO(Long postid, String title, String uname, Timestamp committime,
                    Timestamp lastchagetime, String replyUname, Long replyNum) {
         this.postid = postid;
         this.title = title;

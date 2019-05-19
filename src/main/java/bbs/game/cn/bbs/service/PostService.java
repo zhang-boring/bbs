@@ -31,4 +31,9 @@ public interface PostService {
     Long getPosterId(Long postid);
 
     String getPostNameBiPostid(Long postid);
+    List<PostDTO> getMyPosts(Long uid);
+
+    void delete(Long postid);
+
+    List<PostDTO> findAll();
 }

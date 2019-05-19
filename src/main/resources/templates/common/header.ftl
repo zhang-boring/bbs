@@ -9,6 +9,16 @@
             padding-right:15px;vertical-align:middle;border:1px solid #dddddd;
         }
     </style>
+    <script>
+        //搜索框监听
+        $('#search').bind("keypress", function(event) {
+            if (event.keyCode == "13") {
+                var search = $('#search').val();
+                a = search;
+                window.location.href = "/search?search='" + search + "'";
+            }
+        });
+    </script>
 </head>
 <body style="background-image: url('/img/bg/bg.gif');repeat-y;background-position:center center;">
 <div id="wrapA">
@@ -68,9 +78,15 @@
                             </td>
                         </tr>
                     </table>
+                    <span style="float: right;margin-right:10px;margin-top: -22px;">
+                        搜索：<input id="search" style="background: white;" >
+                    </span>
                 <#else>
                     <a href="/login" style="color:#ffffff;margin-right:8px;margin-left: 8px;">登录</a>
                     <a href="/register" style="color:#bbbbbb;margin-right:8px;">注册</a>
+                    <span style="float: right;margin-right:10px;">
+                    搜索：<input id="search" style="background: white;" >
+                </span>
                 </#if>
             </div>
         </div>
@@ -160,9 +176,17 @@
                                                     dataType:"json",
                                                     type:"GET",
                                                     success:function (data) {
+                                                        d = data;
                                                         console.log(data);
                                                         var qianming = document.getElementById("qianming");
                                                         qianming.innerHTML = "签名：" + data;
+                                                        closeEdit();
+                                                    },
+                                                    error:function(data) {
+                                                        console.log(data);
+                                                        var text = data.responseText;
+                                                        var qianming = document.getElementById("qianming");
+                                                        qianming.innerHTML = "签名：" + text;
                                                         closeEdit();
                                                     }
                                                 });

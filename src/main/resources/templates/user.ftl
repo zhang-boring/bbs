@@ -585,9 +585,9 @@
                 <div style="padding:.6em 1.2em;background: #FFFFFF">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tbody>
-                        <tr style="color: #333">
+                        <tr style="color: #333;font-size: 11px;">
                             <td>等级</td>
-                            <td>${user.level}</td>
+                            <td>${user.identity}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -664,6 +664,9 @@
                             </li>
                             <li <#if tag == "modify">id="u_show" class="current"</#if>>
                                 <a href="/user/${user.uid}?tag=modify">修改信息</a>
+                            </li>
+                            <li <#if tag == "mypost">id="u_show" class="current"</#if>>
+                                <a href="/user/${user.uid}?tag=mypost">我的发布</a>
                             </li>
                         </#if>
                     </ul>
@@ -756,14 +759,13 @@
                         <script>
                             function readMsg(postid, posteruid) {
                                 $.ajax("/user/readmsg?postid=" + postid + "&posteruid=" + posteruid, function () {
-
                                 });
                             }
                         </script>
                     </table>
 
                 </div>
-            <#else>
+            <#elseif tag == "modify">
                 <div id="u-profile">
                     <h5 class="u-h5">
                         <span style="background: #FFFFFF;padding-right: .5em">修改资料</span>
@@ -818,14 +820,52 @@
                                 </th>
                                 <td style="padding-left: 36px;">
                                     <input class="btn" type="submit" value="提 交">
+                                    <input class="btn" type="button" value="修改密码" onclick="resetpw()">
+                                    <script>
+                                        function resetpw() {
+                                            location="/user/resetpw";
+                                        }
+                                    </script>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </form>
                 </div>
+            <#elseif tag == "mypost">
+                <div id="u-profile">
+                    <h5 class="u-h5">
+                        <span style="background: #FFFFFF;padding-right: .5em">我的文章</span>
+                    </h5>
+                    <form action="" method="post">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="u-table"
+                               style="table-layout:fixed;font-size: 11px">
+                            <thead>
+                            <tr style="color: black">
+                                <th width="30%">文章标题</th>
+                                <th>所属版块</th>
+                                <th>发布时间</th>
+                                <th>最新回复</th>
+                                <th>评论数量</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#list myposts as mypost>
+                            <tr>
+                                <td><a href="/post/${mypost.postid}">${mypost.title}</a></td>
+                                <td>${mypost.forumname}</td>
+                                <td>${mypost.committime}</td>
+                                <td>${mypost.lastchagetime}</td>
+                                <td>${mypost.replyNum}</td>
+                                <td><a href="/post/delete?postid=${mypost.postid}">删除</a></td>
+                            </tr>
+                            </#list>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
             </#if>
-
         </div>
     </div>
 </div>
@@ -866,7 +906,7 @@
         editsig.style.display = "none";
     }
 </script>
-<div style="position:absolute;bottom:0;width:100%;height:100px;">
+<#--<div style="position:absolute;bottom:0;width:100%;height:100px;">-->
     <#include "common/footer.ftl" />
-</div>
+<#--</div>-->
 </html>

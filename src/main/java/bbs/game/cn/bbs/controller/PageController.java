@@ -1,14 +1,12 @@
 package bbs.game.cn.bbs.controller;
 
 import bbs.game.cn.bbs.convert.BufferedImage2BASE64String;
-import bbs.game.cn.bbs.dto.ForumDTO;
-import bbs.game.cn.bbs.dto.IndexDTO;
-import bbs.game.cn.bbs.dto.PartDTO;
-import bbs.game.cn.bbs.dto.UserDTO;
+import bbs.game.cn.bbs.dto.*;
 import bbs.game.cn.bbs.service.*;
 import bbs.game.cn.bbs.utils.ImageCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +33,8 @@ public class PageController {
     PostService postService;
     @Autowired
     IndexService indexService;
+    @Autowired
+    ESService esService;
 
     /**
      * 主页:/index
@@ -137,6 +137,14 @@ public class PageController {
         return new ModelAndView("new");
     }
 
+    @RequestMapping("/newgonggao")
+    public ModelAndView newgonggao(HttpSession session) {
+        session.setAttribute("forumid", 40);
+        session.setAttribute("forumname", "公告");
+        session.setAttribute("partname", "公告");
+        return new ModelAndView("new");
+    }
+
     /**
      * 后台管理页面
      * @return
@@ -147,5 +155,18 @@ public class PageController {
             return new ModelAndView("adminlogin");
         }
         return new ModelAndView("admin");
+    }
+
+    /**
+     * 搜索信息
+     * @param search
+     * @return
+     */
+    @RequestMapping("/search")
+    public ModelAndView search(String search) {
+        List<PostDTO> postDTOS = esService.search(search);
+        ModelAndView modelAndView = new ModelAndView("searchrs");
+        modelAndView.addObject("result", postDTOS);
+        return modelAndView;
     }
 }
