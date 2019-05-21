@@ -14,4 +14,6 @@ public class PostForm {
     private String title;
 
     private String content;
+
+    private Integer announce;
 }

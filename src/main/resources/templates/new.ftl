@@ -40,6 +40,7 @@
     <div style="min-width: 760px;border: 1px solid #dddddd;margin: 0 auto 8px;height: auto;overflow: hidden;background: #ffffff;">
         <form action="/post/new" method="post">
             <input type="hidden" name="forumid" value="${Session.forumid}">
+            <input type="hidden" name="announce" value="${announce}">
             <table style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;" cellpadding="0" cellspacing="0" align="center">
                 <tr>
                     <th style="border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;text-align: left;color: #333333;padding: 2px .5em 0;line-height: 200%;" colspan="2">

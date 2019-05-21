@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class PostEmailUtil {
     //组成随机密码的字符
-    private static final String PASSWORD = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String PASSWORDCHARACTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
 
     public static String postEmail(String email) throws MessagingException {
         String myEmailAccount = "zhangbaoyun0@163.com";
@@ -46,7 +46,7 @@ public class PostEmailUtil {
         Random random = new Random();
         String pw = "";
         for (int i = 0; i < 6; i ++) {
-            pw += PASSWORD.charAt(random.nextInt(PASSWORD.length() - 1));
+            pw += PASSWORDCHARACTER.charAt(random.nextInt(PASSWORDCHARACTER.length() - 1));
         }
 
         //发送邮件

@@ -156,7 +156,7 @@ public class PostController {
                 String fileUrl = ckeditorAccessImageUrl + "/" + newfile.getName();
                 // 将上传的图片的url返回给ckeditor
                 String callback = request.getParameter("CKEditorFuncNum");
-                String script = "<script type=\"text/javascript\">var start = (new Date()).getTime();while((new Date()).getTime() - start < 3000) {continue;}window.parent.CKEDITOR.tools.callFunction(" + callback + ", '" + fileUrl + "');</script>";
+                String script = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(" + callback + ", '" + fileUrl + "');</script>";
 
                 out.println(script);
                 out.flush();
@@ -190,6 +190,9 @@ public class PostController {
         postEntity.setLastchagetime(ts);
         postEntity.setCommittime(ts);
         postEntity.setForumid(Long.parseLong(forumid));
+        if (post.getAnnounce() == 1) {
+            postEntity.setAnnounce((short) 1);
+        }
         PostDTO savedDTO = PostEntity2PostDTO.convert(postService.insert(postEntity));
         savedDTO.setUname(userService.findUsernameByUid(savedDTO.getUid()));
         savedDTO.setReplyNum(postService.countReplynumByPostid(savedDTO.getPostid()));

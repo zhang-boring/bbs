@@ -72,34 +72,37 @@
                 </td>
                 <td style="width:9em;line-height: 18px;border-bottom: 1px solid #eeeeee;padding: 2px 6px;">最新回复</td>
             </tr>
-            <#list result as post>
-                <tr style="line-height: 130%;background: #ffffff;" align="center">
-                    <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">${post.forumname}</td>
-                    <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
-                        <h3 style="font-weight: normal;display: inline;font-size: 12px;">
-                            <a href="/post/${post.postid}">
-                                <span style="padding-left: 12px;">${post.title}</span>
-                            </a>
-                        </h3>
-                    </td>
-                    <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
-                        <a>${post.uname}</a>
-                        <div style="color: #555;font-size: 11px;">${post.committime?string('yyyy-MM-dd')}</div>
-                    </td>
-                    <td style="border-bottom: 1px solid #eeeeee;padding: .3em .6em;font-size: 11px;text-align: left;">
-                        ${post.replyNum}
-                    </td>
-                    <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
-                        ${post.lastchagetime?string('yyyy-MM-dd HH:mm')}<br>
-                        <span style="color: #555;">
+            <#if (result)??>
+                <#list result as post>
+                    <tr style="line-height: 130%;background: #ffffff;" align="center">
+                        <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">${post.forumname}</td>
+                        <td style="text-align:left;line-height:23px;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
+                            <h3 style="font-weight: normal;display: inline;font-size: 12px;">
+                                <a href="/post/${post.postid}">
+                                    <span style="padding-left: 12px;">${post.title}</span>
+                                </a>
+                            </h3>
+                        </td>
+                        <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
+                            <a>${post.uname}</a>
+                            <div style="color: #555;font-size: 11px;">${post.committime?string('yyyy-MM-dd')}</div>
+                        </td>
+                        <td style="border-bottom: 1px solid #eeeeee;padding: .3em .6em;font-size: 11px;text-align: left;">
+                            ${post.replyNum}
+                        </td>
+                        <td style="text-align: left;border-bottom: 1px solid #eeeeee;padding: .3em .6em;">
+                            ${post.lastchagetime?string('yyyy-MM-dd HH:mm')}<br>
+                            <span style="color: #555;">
                             <#if (post.replyUname)??>
                                 by: ${post.replyUname}
                             <#else>
                             </#if>
                         </span>
-                    </td>
-                </tr>
-            </#list>
+                        </td>
+                    </tr>
+                </#list>
+            </#if>
+
             </tbody>
         </table>
         <br/>

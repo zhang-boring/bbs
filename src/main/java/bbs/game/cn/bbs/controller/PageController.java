@@ -44,6 +44,7 @@ public class PageController {
      */
     @RequestMapping("/index")
     public ModelAndView index(Map<String, Object> map, HttpServletRequest request) {
+//        System.out.println(request.getHeader("HOST"));
         map.put("page", "index");
         HttpSession session = request.getSession();
         if (session.getAttribute("loaded") != null) {
@@ -134,15 +135,16 @@ public class PageController {
      */
     @RequestMapping("/newpost")
     public ModelAndView newPostPage() {
-        return new ModelAndView("new");
+        ModelAndView modelAndView = new ModelAndView("new");
+        modelAndView.addObject("announce", 0);
+        return modelAndView;
     }
 
     @RequestMapping("/newgonggao")
     public ModelAndView newgonggao(HttpSession session) {
-        session.setAttribute("forumid", 40);
-        session.setAttribute("forumname", "公告");
-        session.setAttribute("partname", "公告");
-        return new ModelAndView("new");
+        ModelAndView modelAndView = new ModelAndView("new");
+        modelAndView.addObject("announce", 1);
+        return modelAndView;
     }
 
     /**
@@ -164,6 +166,7 @@ public class PageController {
      */
     @RequestMapping("/search")
     public ModelAndView search(String search) {
+        System.out.println(search);
         List<PostDTO> postDTOS = esService.search(search);
         ModelAndView modelAndView = new ModelAndView("searchrs");
         modelAndView.addObject("result", postDTOS);
