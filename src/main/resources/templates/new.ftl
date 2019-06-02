@@ -38,7 +38,7 @@
         <div style="clear: both;"></div>
     </div>
     <div style="min-width: 760px;border: 1px solid #dddddd;margin: 0 auto 8px;height: auto;overflow: hidden;background: #ffffff;">
-        <form action="/post/new" method="post">
+        <form action="/post/new" method="post" onsubmit="return checkpost();" id="form">
             <input type="hidden" name="forumid" value="${Session.forumid}">
             <input type="hidden" name="announce" value="${announce}">
             <table style="border: 0px solid #ffffff;margin: 0;width: 100%;border-top: none;" cellpadding="0" cellspacing="0" align="center">
@@ -54,7 +54,7 @@
                     <td>
                         <div style="margin:.5em auto 0 205px; height:30px;">
                             <div style="width: 540px;border: 1px solid;border-color: #dddddd;padding: 2px 0px 2px 1px;font-size: 1.0em;vertical-align: middle;color: #000;float: left;background: #ffffff;">
-                                <input title="请输入标题" name="title" style="border:0;font-size:14px; font-family:Tahoma;width:480px;font: 12px Arial;padding: 1px 3px 0 3px;vertical-align: middle;margin-bottom: 1px;">
+                                <input title="请输入标题" name="title" id="title" style="border:0;font-size:14px; font-family:Tahoma;width:480px;font: 12px Arial;padding: 1px 3px 0 3px;vertical-align: middle;margin-bottom: 1px;">
                             </div>
                         </div>
                     </td>
@@ -63,7 +63,7 @@
                     <td colspan="2">
                         <textarea name="content" id="content"></textarea>
                         <script>
-                            CKEDITOR.replace( 'content', {
+                            var ckeditor = CKEDITOR.replace( 'content', {
                                 // Define the toolbar: http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar
                                 // The standard preset from CDN which we used as a base provides more features than we need.
                                 // Also by default it comes with a 2-line toolbar. Here we put all buttons in a single row.
@@ -170,3 +170,22 @@
 </body>
 <#include "common/footer.ftl" />
 </html>
+<script>
+    var a,b;
+    function checkpost() {
+        var title = document.getElementById("title").value;
+        a = title;
+        if (title.length < 5) {
+            alert("文章标题不得少与5个字符！请重新编辑。");
+            return false;
+        }
+        var content = ckeditor.document.getBody().getText();
+        b = content;
+        if (content.length < 10) {
+            alert("文章内容太少了！请再多添加一点吧~~");
+            return false;
+        }
+        document.getElementById("form").submit();
+        return true;
+    }
+</script>

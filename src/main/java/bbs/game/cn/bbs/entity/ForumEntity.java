@@ -1,10 +1,13 @@
 package bbs.game.cn.bbs.entity;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@ToString
 @Table(name = "forum", schema = "bbs", catalog = "")
 public class ForumEntity {
     private long forumid;
@@ -14,6 +17,7 @@ public class ForumEntity {
     private String moderator;
     private String description;
     private Timestamp createtime;
+    private long creator;
 
     @Id
     @Column(name = "forumid")
@@ -85,6 +89,16 @@ public class ForumEntity {
         this.createtime = createtime;
     }
 
+    @Basic
+    @Column(name = "creator")
+    public long getCreator() {
+        return creator;
+    }
+
+    public void setCreator(long creator) {
+        this.creator = creator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,6 +106,7 @@ public class ForumEntity {
         ForumEntity that = (ForumEntity) o;
         return forumid == that.forumid &&
                 partid == that.partid &&
+                creator == that.creator &&
                 Objects.equals(forumname, that.forumname) &&
                 Objects.equals(icon, that.icon) &&
                 Objects.equals(moderator, that.moderator) &&
@@ -101,6 +116,6 @@ public class ForumEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(forumid, partid, forumname, icon, moderator, description, createtime);
+        return Objects.hash(forumid, partid, forumname, icon, moderator, description, createtime, creator);
     }
 }

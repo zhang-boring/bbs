@@ -87,7 +87,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long>, JpaSpec
 
     /**
      * 当前版块下最新的文章标题和postid、发布者、提交时间
-     *  nativeQuery为true时:写原生sql，支持limit函数
+     *  nativeQuery为true时:代表原生sql，支持limit函数
      *  nativeQuery为false时:是JPQL,JPQL不支持limit函数
      * @return
      */

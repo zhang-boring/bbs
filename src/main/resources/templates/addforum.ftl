@@ -748,29 +748,31 @@
                 </div>
             </div>
             <#--            TODO-->
-            <form class="form-horizontal" role="form" action="/admin/execaf" method="post">
+            <form class="form-horizontal" role="form"
+                  action="/admin/execaf"
+                  method="post" id="form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">版块名</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="forumname"/>
+                        <input type="text" class="form-control" name="forumname" id="forumname"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">版主用户UID</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="moderator" />
+                        <input type="text" class="form-control" name="moderator" id="moderator"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">描述信息</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="description" />
+                        <input type="text" class="form-control" name="description" id="description"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">社区分区</label>
                     <div class="col-sm-10">
-                        <select name="partid">
+                        <select name="partid" id="partid">
                             <#list parts as part>
                                 <option value="${part.partid}">${part.partname}</option>
                             </#list>
@@ -778,14 +780,51 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="exampleInputFile" class="col-sm-2 control-label">上传图标</label>
+                    <div class="col-sm-10">
+                        <input type="file" id="img" onchange="fileUpload()" />
+                    </div>
+                    <p class="help-block">
+                        <img id="preview">
+                        <input type="hidden" name="icon" id="icon">
+                    </p>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" class="btn btn-default" value="确认添加" />
+                        <button class="btn btn-default" value="确认添加">确认添加</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script>
+    var a;
+    function fileUpload() {
+        var formdata = new FormData();
+        formdata.append("file", $('#img')[0].files[0]);
+        $.ajax({
+            url: '/admin/fileupload',
+            type: 'POST',
+            cache: false,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function(msg) {
+                console.log(msg);
+                msg = JSON.parse(msg);
+                a = msg;
+                if (msg.code == 200) {
+                    $('#preview').attr("src", msg.msg);
+                    $('#icon').attr("value", msg.msg);
+                } else {
+                    alert(msg.msg);
+                    $('#img').value = "";
+                }
+            }
+        })
+    }
+</script>
 </body>
 
 </html>

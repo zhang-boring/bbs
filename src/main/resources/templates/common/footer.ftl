@@ -23,7 +23,7 @@
     var timeObj = document.getElementById("time");
     var date = new Date();
     var time = num(date.getMonth()+1) + "-" +
-        num(date.getDay()) + " " + num(date.getHours()) + ":"
+        num(date.getDate()) + " " + num(date.getHours()) + ":"
         + num(date.getMinutes());
     timeObj.innerText = time;
 

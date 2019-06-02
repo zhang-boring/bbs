@@ -46,4 +46,11 @@ public class CommentServiceImpl implements CommentService {
     public CommentEntity insert(CommentEntity commentEntity) {
         return commentRepository.save(commentEntity);
     }
+
+    @Override
+    public Long delete(Long commentid) {
+        Long postid = commentRepository.findPostid(commentid);
+        commentRepository.deleteById(commentid);
+        return postid;
+    }
 }

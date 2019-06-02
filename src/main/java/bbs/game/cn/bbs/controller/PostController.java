@@ -4,15 +4,14 @@ import bbs.game.cn.bbs.convert.PostEntity2PostDTO;
 import bbs.game.cn.bbs.dto.CommentDTO;
 import bbs.game.cn.bbs.dto.PostDTO;
 import bbs.game.cn.bbs.dto.UserDTO;
-import bbs.game.cn.bbs.entity.CommentEntity;
-import bbs.game.cn.bbs.entity.ElasticSearchEntity;
-import bbs.game.cn.bbs.entity.PostEntity;
-import bbs.game.cn.bbs.entity.UserEntity;
+import bbs.game.cn.bbs.entity.*;
 import bbs.game.cn.bbs.form.CommentForm;
 import bbs.game.cn.bbs.form.PostForm;
 import bbs.game.cn.bbs.service.*;
 import bbs.game.cn.bbs.utils.RandomValue;
 import com.alibaba.fastjson.JSON;
+import io.searchbox.client.JestResult;
+import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,12 +78,16 @@ public class PostController {
     /**
      * 删除文章
      * @param postid
+     * @param from
      * @param request
      * @return
      */
     @RequestMapping("/delete")
-    public String delete(@RequestParam("postid") Long postid, HttpServletRequest request) {
+    public String delete(@RequestParam("postid") Long postid, @RequestParam("from") String from, HttpServletRequest request) {
         postService.delete(postid);
+        if (from != null) {
+            return "redirect:/forum/" + from;
+        }
         return "redirect:/user/" + ((UserDTO)request.getSession().getAttribute("user")).getUid() + "?tag=mypost";
     }
 
@@ -113,6 +116,7 @@ public class PostController {
         session.setAttribute("forumname", forumService.findForumnameByForumid(forumid));
         modelAndView.addObject("poster", userService.findUser(postService.getPosterId(postid)));
         modelAndView.setViewName("post");
+        modelAndView.addObject("moderator", forumService.getModeratorUid(Long.valueOf(forumid)));
 
         Specification<CommentEntity> spec = new Specification<CommentEntity>() {
             @Override
@@ -197,7 +201,11 @@ public class PostController {
         savedDTO.setUname(userService.findUsernameByUid(savedDTO.getUid()));
         savedDTO.setReplyNum(postService.countReplynumByPostid(savedDTO.getPostid()));
         savedDTO.setForumname(forumService.findForumnameByForumid(forumService.getForumidByPostid(savedDTO.getPostid())));
-        esService.saveEntity(new ElasticSearchEntity(JSON.toJSONString(savedDTO)));
+        JestResult jestResult = esService.saveEntity(new ElasticSearchEntity(JSON.toJSONString(savedDTO)));
+        JSONObject jsonObject = new JSONObject(jestResult.getJsonString());
+        String es_id = jsonObject.getString("_id");
+        EspostEntity espostEntity = new EspostEntity(savedDTO.getPostid(), es_id);
+        esService.save2DB(espostEntity);
         modelAndView.setViewName("redirect:/forum/" + forumid);
         return modelAndView;
     }

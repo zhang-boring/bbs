@@ -4,11 +4,13 @@ import bbs.game.cn.bbs.convert.ForumEntity2ForumDTO;
 import bbs.game.cn.bbs.dto.ForumDTO;
 import bbs.game.cn.bbs.dto.SimpleForumDTO;
 import bbs.game.cn.bbs.entity.ForumEntity;
+import bbs.game.cn.bbs.repository.CommentRepository;
 import bbs.game.cn.bbs.repository.ForumRepository;
 import bbs.game.cn.bbs.repository.PostRepository;
 import bbs.game.cn.bbs.repository.UserRepository;
 import bbs.game.cn.bbs.service.ForumService;
 import bbs.game.cn.bbs.service.PartService;
+import bbs.game.cn.bbs.service.PostService;
 import bbs.game.cn.bbs.utils.ModifyEntityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class ForumServiceImpl implements ForumService {
     UserRepository userRepository;
     @Autowired
     PartService partService;
+    @Autowired
+    CommentRepository commentRepository;
 
     @Override
     public List<ForumDTO> findAll(Long uid) {
@@ -98,8 +102,9 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public void rmAll(Long forumid) {
+        commentRepository.deleteByForumid(forumid);
+        postRepository.deleteByForumid(forumid);
         forumRepository.rmAll(forumid);
-        forumRepository.deleteById(forumid);
     }
 
     @Override

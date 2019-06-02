@@ -29,12 +29,12 @@ public class ApplicationStartupListener implements ApplicationListener<ContextRe
         for (PostDTO postDTO : postDTOS) {
             elasticSearchEntity.setContent(JSON.toJSONString(postDTO));
             JestResult jestResult = esService.saveEntity(elasticSearchEntity);
-//            if (jestResult.getResponseCode() != 400) {
+            if (jestResult.getResponseCode() != 400) {
                 JSONObject jsonObject = new JSONObject(jestResult.getJsonString());
                 String es_id = jsonObject.getString("_id");
                 EspostEntity espostEntity = new EspostEntity(postDTO.getPostid(), es_id);
                 esService.save2DB(espostEntity);
-//            }
+            }
         }
     }
 }

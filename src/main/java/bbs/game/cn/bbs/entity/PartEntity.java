@@ -10,15 +10,14 @@ public class PartEntity {
     private long partid;
     private String partname;
     private Timestamp createtime;
+    private long creator;
 
-    public PartEntity(String partname) {
+    public PartEntity(String partname, Long creator) {
         this.partname = partname;
-        this.createtime = new Timestamp(System.currentTimeMillis());
+        this.creator = creator;
     }
 
-    public PartEntity() {
-
-    }
+    public PartEntity() {}
 
     @Id
     @Column(name = "partid")
@@ -50,18 +49,29 @@ public class PartEntity {
         this.createtime = createtime;
     }
 
+    @Basic
+    @Column(name = "creator")
+    public long getCreator() {
+        return creator;
+    }
+
+    public void setCreator(long creator) {
+        this.creator = creator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartEntity that = (PartEntity) o;
         return partid == that.partid &&
+                creator == that.creator &&
                 Objects.equals(partname, that.partname) &&
                 Objects.equals(createtime, that.createtime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(partid, partname, createtime);
+        return Objects.hash(partid, partname, createtime, creator);
     }
 }

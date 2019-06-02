@@ -6,21 +6,21 @@ import bbs.game.cn.bbs.entity.PartEntity;
 import bbs.game.cn.bbs.service.AdminService;
 import bbs.game.cn.bbs.service.ForumService;
 import bbs.game.cn.bbs.service.PartService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.sun.tracing.dtrace.FunctionAttributes;
-import lombok.AllArgsConstructor;
+import bbs.game.cn.bbs.utils.RandomValue;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,6 +31,12 @@ public class AdminController {
     private ForumService forumService;
     @Autowired
     private PartService partService;
+
+    @Value(value = "${icon.storage.forum.path}")
+    private String forumIconStoragePath;
+
+    @Value(value = "${icon.storage.forum.url}")
+    private String forumIconUrl;
 
     /**
      * 管理员登陆
@@ -52,6 +58,7 @@ public class AdminController {
         }
         ModelAndView modelAndView = new ModelAndView("admin");
         request.getSession().setAttribute("admin", adminEntity.getAname());
+        request.getSession().setAttribute("aid", adminEntity.getAid());
         modelAndView.addObject("forums", forumService.findAll(null));
         return modelAndView;
     }
@@ -212,7 +219,7 @@ public class AdminController {
      */
     @RequestMapping("/execap")
     public String exeaf(String partname, HttpServletRequest request) {
-        partService.save(partname);
+        partService.save(partname, (Long) request.getSession().getAttribute("aid"));
         return "redirect:/admin/managepart";
     }
 
@@ -225,7 +232,9 @@ public class AdminController {
     @RequestMapping("execaf")
     public ModelAndView execaf(ForumEntity forumEntity, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/list");
+        forumEntity.setCreator((Long) request.getSession().getAttribute("aid"));
         forumService.save(forumEntity);
+        System.out.println(forumEntity);
         return modelAndView;
 //        return "redirect:/admin/list";
     }
@@ -234,6 +243,29 @@ public class AdminController {
     public String execmf(ForumEntity forumEntity,HttpServletRequest request) {
         forumService.update(forumEntity);
         return "redirect:/admin/list";
+    }
+
+    @RequestMapping("/fileupload")
+    @ResponseBody
+    public String fileUpload(@RequestParam("file") MultipartFile file) {
+        String name = RandomValue.getRandomFileName();
+        String pathName = forumIconStoragePath + name + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+        File newfile = new File(pathName);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newfile));
+            stream.write(bytes);
+            stream.close();
+
+            jsonObject.put("code", 200);
+            jsonObject.put("msg", forumIconUrl + "/" + newfile.getName());
+            return jsonObject.toString();
+        } catch (IOException e) {
+            jsonObject.put("code", 500);
+            jsonObject.put("msg", e.getMessage());
+            return jsonObject.toJSONString();
+        }
     }
 
     @Data

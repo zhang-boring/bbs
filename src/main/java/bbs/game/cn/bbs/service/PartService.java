@@ -13,7 +13,7 @@ public interface PartService {
     List<PartDTO> findAll();
     String findPartnameByPartid(Long partid);
     String findPartnameByForumid(Long forumid);
-    void save(String partname);
+    void save(String partname, Long creator);
     PartEntity findByPartid(Long partid);
     List<PartDTO> getOtherPart(Long partid);
     void modify(PartEntity partEntity);

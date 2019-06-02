@@ -10,5 +10,6 @@ public class PostImageConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/postimages/**").addResourceLocations("file:C:\\Users\\Curtis\\IdeaProjects\\bbs\\src\\main\\resources\\static\\postimages\\");
+        registry.addResourceHandler("/img/icon/**").addResourceLocations("file:C:\\Users\\Curtis\\IdeaProjects\\bbs\\src\\main\\resources\\static\\img\\icon\\");
     }
 }

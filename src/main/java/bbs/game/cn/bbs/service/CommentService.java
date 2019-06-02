@@ -10,4 +10,6 @@ public interface CommentService {
     Page<CommentDTO> findCommentList(Specification<CommentEntity> spec, Pageable pageable);
 
     CommentEntity insert(CommentEntity commentEntity);
+
+    Long delete(Long commentid);
 }

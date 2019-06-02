@@ -55,6 +55,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     /**
      * 重置密码
+     * Tranactional注解：开启事务，避免SQL语句执行过程中出错导致破坏数据库内容一致性
+     * Modifying注解：支持执行修改操作
+     * Query注解：支持自定义SQL语句
      * @param uname
      * @param pw
      */

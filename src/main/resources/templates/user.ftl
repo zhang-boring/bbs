@@ -608,46 +608,46 @@
                             <span id="honor">
                                 ${user.signature}
                             </span>
-                            <#if (Session.user.uid)?? && Session.user.uid == user.uid >
-                                <a id="editsigimg" onclick="openEdit()"
-                                   style="color: #555;cursor: pointer;font-size: 11px;">
-                                    <img src="/img/icon/infobox-edit.gif">编辑
-                                </a>
-                                <div id="editsignature"
-                                     style="position: absolute;background: #fff;border: 1px solid #bbbbbb;z-index: 3000;opacity: 0.95;left: 321px;top: 168px;visibility: visible;display: none;">
-                                    <div style="border: 5px solid #bbbbbb;">
-                                        <form>
-                                            <input type="hidden" id="editsiguid" name="uid" value="${user.uid}">
-                                            <table width="300" cellpadding="5" cellspacing="0">
-                                                <tbody>
-                                                <tr>
-                                                    <th style="border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;
-                                                                text-align: left;color: #333333;;line-height: 200%;font-size: 12px;">
-                                                        <span style="float: right;margin-top: 2px;cursor:pointer;"
-                                                              onclick="closeEdit()">
-                                                            <img src="/img/close.gif">
-                                                        </span>
-                                                        个性签名编辑
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <td style="line-height: 20px;">
-                                                        <textarea id="editedsig" name="signature"
-                                                                  style="width: 95%;height: 60px;">${user.signature}</textarea>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                            <ul style="padding: 0;margin: 0;">
-                                                <li style="list-style: none;text-align: center;padding: 4px 0;">
-                                                    <input id="submitbtn" type="button" class="btn" value="提 交"
-                                                           onclick="tijiao()">
-                                                </li>
-                                            </ul>
-                                        </form>
-                                    </div>
-                                </div>
-                            </#if>
+<#--                            <#if (Session.user.uid)?? && Session.user.uid == user.uid >-->
+<#--                                <a id="editsigimg" onclick="openEdit()"-->
+<#--                                   style="color: #555;cursor: pointer;font-size: 11px;">-->
+<#--                                    <img src="/img/icon/infobox-edit.gif">编辑-->
+<#--                                </a>-->
+<#--                                <div id="editsignature"-->
+<#--                                     style="position: absolute;background: #fff;border: 1px solid #bbbbbb;z-index: 3000;opacity: 0.95;left: 321px;top: 168px;visibility: visible;display: none;">-->
+<#--                                    <div style="border: 5px solid #bbbbbb;">-->
+<#--                                        <form>-->
+<#--                                            <input type="hidden" id="editsiguid" name="uid" value="${user.uid}">-->
+<#--                                            <table width="300" cellpadding="5" cellspacing="0">-->
+<#--                                                <tbody>-->
+<#--                                                <tr>-->
+<#--                                                    <th style="border-bottom: 1px solid #bbbbbb;background: url(/img/bg/bg-tb.gif) repeat-x #dddddd;-->
+<#--                                                                text-align: left;color: #333333;;line-height: 200%;font-size: 12px;">-->
+<#--                                                        <span style="float: right;margin-top: 2px;cursor:pointer;"-->
+<#--                                                              onclick="closeEdit()">-->
+<#--                                                            <img src="/img/close.gif">-->
+<#--                                                        </span>-->
+<#--                                                        个性签名编辑-->
+<#--                                                    </th>-->
+<#--                                                </tr>-->
+<#--                                                <tr>-->
+<#--                                                    <td style="line-height: 20px;">-->
+<#--                                                        <textarea id="editedsig" name="signature"-->
+<#--                                                                  style="width: 95%;height: 60px;">${user.signature}</textarea>-->
+<#--                                                    </td>-->
+<#--                                                </tr>-->
+<#--                                                </tbody>-->
+<#--                                            </table>-->
+<#--                                            <ul style="padding: 0;margin: 0;">-->
+<#--                                                <li style="list-style: none;text-align: center;padding: 4px 0;">-->
+<#--                                                    <input id="submitbtn" type="button" class="btn" value="提 交"-->
+<#--                                                           onclick="tijiao()">-->
+<#--                                                </li>-->
+<#--                                            </ul>-->
+<#--                                        </form>-->
+<#--                                    </div>-->
+<#--                                </div>-->
+<#--                            </#if>-->
                         </td>
                     </tr>
                     </tbody>

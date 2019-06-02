@@ -67,8 +67,8 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public void save(String partname) {
-        partRepository.save(new PartEntity(partname));
+    public void save(String partname, Long creator) {
+        partRepository.save(new PartEntity(partname, creator));
     }
 
     @Override

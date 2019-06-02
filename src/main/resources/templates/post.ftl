@@ -504,6 +504,11 @@
                             <div class="tiptop" style="">
                                 <span class="fl gray" style="white-space:nowrap;">${post.committime}</span>
                                 <div class="fl bianji"><#if poster.signature != "">（${poster.signature}）</#if></div>
+                                <#if (Session.user)??>
+                                    <#if (Session.user.uid) == (poster.uid) || (Session.user.uid) == moderator>
+                                        <div class="fr" onclick="location='/post/delete?postid=${post.postid}&from=${forumid};" style="color: RED">删除</div>
+                                    </#if>
+                                </#if>
                                 <div class="c"></div>
                             </div>
                             <div class="c"></div>
@@ -561,6 +566,11 @@
                                         ${comment.committime}
                                     </span>
                                     <div class="fl bianji">（${comment.signature}）</div>
+                                    <#if (Session.user)??>
+                                        <#if (comment.firstuid) == (Session.user.uid)>
+                                            <div class="fr" onclick="location='/comment/delete?commentid=${comment.commentid}'" style="color: RED">删除</div>
+                                        </#if>
+                                    </#if>
                                     <div class="c"></div>
                                 </div>
                                 <div class="c"></div>
@@ -698,9 +708,9 @@
                 <tr>
                     <td colspan="2" class="f_one" style="padding:7px">
                         <div style="margin-left: 30%">
-                            <form name="FORM" id="form" action="/post/comment" method="post"
-                                  onsubmit="checksubmit()"
-                            >
+                            <form name="FORM" id="form"
+                                  action="/post/comment"
+                                  method="post" onsubmit="return checkcomment()">
                                 <input name="firstuid" type="hidden" value="<#if (Session.user)??>${Session.user.uid}<#else></#if>" />
                                 <input name="seconduid" type="hidden" value="0"/>
                                 <input name="postid" type="hidden" value="${post.postid}" />
@@ -708,7 +718,7 @@
                                     <input type="text" class="input" name="atc_title" value="回复${post.title}的评论">
                                     <br>
                                 </div>
-                                <textarea name="atc_content" rows="8" style="width:96%"></textarea>
+                                <textarea name="atc_content" rows="8" id="content" style="width:96%"></textarea>
                                 <div style="margin:5px 0">
                                     <div style="padding:4px 15px 4px 0;float:right;">
                                         <input type="submit" value="提交" class="btn">
@@ -727,19 +737,28 @@
 </div>
 </body>
 <script>
+    var a;
     function postreply(txt, uid) {
         document.FORM.atc_title.value = txt;
         document.FORM.seconduid.value = uid;
         document.FORM.atc_content.focus();
     }
-    function checksubmit() {
-        console.log(sessionStorage.getItem("user"));
-        if (sessionStorage.getItem("user") != null) {
-            var form = document.getElementById("form");
-            form.submit();
-        } else {
-            location="/errorpage?errorInfo='请先登录！'";
+    function checkcomment() {
+        <#if !(Session.user)?? >
+            alert("请先登录！");
+            return false;
+        <#else>
+        var form = document.getElementById("form");
+        var content = document.getElementById("content").value;
+        console.log(content);
+        a = content;
+        if (document.getElementById("content").value.length < 6) {
+            alert("请输入多于6个字的评论~~");
+            return false;
         }
+        form.submit();
+        return true;
+        </#if>
     }
 </script>
 <#include "common/footer.ftl" />

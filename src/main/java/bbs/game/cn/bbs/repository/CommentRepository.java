@@ -21,4 +21,12 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long>, J
     @Modifying
     @Transactional
     void deleteByPostid(@Param("postid") Long postid);
+
+    @Query(value = "select postid from comment where commentid=:commentid", nativeQuery = true)
+    Long findPostid(@Param("commentid") Long commentid);
+
+    @Query(value = "delete from comment where comment.postid in (select postid from post where forumid=:forumid)", nativeQuery = true)
+    @Transactional
+    @Modifying
+    void deleteByForumid(@Param("forumid") Long forumid);
 }
